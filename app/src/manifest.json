@@ -1,0 +1,36 @@
+{
+    "name": "Watchlist",
+    "version": "0.9",
+    "description": "Watch all the web you care about.",
+    "manifest_version": 2,
+    "update_url": "https://clients2.google.com/service/update2/crx",
+    "background": {
+        "page": "html/background.html"
+    },
+    "browser_action": {
+        "default_title": "Watch List",
+        "default_icon": {
+            "19": "image/icon-19.png",
+            "38": "image/icon-38.png"
+        }
+    },
+    "content_scripts": [{
+        "css": ["css/toolbox.css"],
+        "js": ["js/jquery.js", "js/toolbox.js"],
+        "matches": ["*://*/*"]
+    }],
+    "icons": {
+        "128": "image/icon-128.png",
+        "48": "image/icon-48.png",
+        "16": "image/icon-16.png"
+    },
+    "permissions": [
+        "tabs",
+        "contextMenus",
+        "cookies",
+        "notifications",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "content_security_policy": "script-src 'self'; object-src 'self'"
+}
