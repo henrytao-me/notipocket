@@ -37,9 +37,17 @@ var _this = {
     },
 
     read: function(req, res) {
-        return res.json({
-            status: 'ok'
+
+        User.findOne({
+            email: 'hi@henrytao.me'
+
+        }).then(function(data) {
+            return res.json({
+                status: 'ok',
+                data: data
+            });
         });
+        
     },
 
     register: function(req, res) {

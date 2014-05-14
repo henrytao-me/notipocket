@@ -1,3 +1,5 @@
+var bcrypt = require('bcrypt');
+
 var _this = {
     attributes: {
         email: {
@@ -20,20 +22,51 @@ var _this = {
         }
     },
 
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+
+    beforeCreate: function(user, cb) {
+        bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(user.password, salt, function(err, hash) {
+                if (err) {
+                    cb(err);
+                } else {
+                    user.password = hash;
+                    cb(null, user);
+                }
+            });
+        });
+    },
+
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+
     authenticateEmail: function(email, password) {
         var _this = this;
         return q().then(function() {
             return _this.findOne({
-                email: email,
-                password: password
-
-            }).then(function(data) {
-                if (!data) {
-                    throw new Error('Invalid email and password');
-                }
-                return data;
+                email: email
             });
+
+        }).then(function(data) {
+            if (!data) {
+                throw new Error('Invalid email and password');
+            }
+            return data;
+
+        }).then(function(data) {
+            // compare password
+            if (!bcrypt.compareSync(password, data.password)) {
+                throw new Error('Invalid email and password');
+            }
+            return data;
         });
+    },
+
+    read: function() {
+
     },
 
     register: function(email, password) {

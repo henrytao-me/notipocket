@@ -31,4 +31,12 @@ describe('all', function() {
         });
     });
 
+    // it('should get /api/user', function(done){
+    //     request.get('/api/user').end(function(res){
+    //         expect(res.body).to.have.property('status', 'ok');
+    //         expect(res.body).to.have.property('data');
+    //         done();
+    //     });
+    // });
+
 });
