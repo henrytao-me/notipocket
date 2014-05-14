@@ -65,6 +65,18 @@ describe('after login', function() {
         });
     });
 
+    // it('should get /api/user/refresh-token', function(done) {
+    //     request.get('/api/user/refresh-token').end(function(res) {
+    //         expect(res.body).to.have.property('status', 'ok');
+    //         expect(res.body).to.have.property('data');
+    //         expect(res.body.data).to.have.property('token');
+
+    //         // store
+    //         _this.user.token = res.body.data.token;
+    //         done();
+    //     });
+    // });
+
 });
 
 //////////////////////////////////////////

@@ -32,6 +32,8 @@ module.exports.routes = {
 
     'post   /api/user/authenticate/email': 'UserController.authenticateEmail',
 
+    // 'get    /api/user/refresh-token': 'UserController.refreshToken',
+
     'post   /api/user/register': 'UserController.register',
 
     'get    /api/user/logout': 'UserController.logout',

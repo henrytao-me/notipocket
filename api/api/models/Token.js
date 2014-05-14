@@ -1,3 +1,5 @@
+var uuid = require('node-uuid');
+
 var _this = {
 
     attributes: {
@@ -47,6 +49,14 @@ var _this = {
             token: token
         }, {
             status: 'deactive'
+        });
+    },
+
+    refresh: function(userId) {
+        var _this = this;
+        return _this.create({
+            token: uuid.v1(),
+            userId: userId
         });
     }
 
