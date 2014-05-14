@@ -8,11 +8,12 @@
  * http://sailsjs.org/#documentation
  */
 
+GLOBAL.q = require('q');
+GLOBAL._ = require('underscore');
+
 module.exports.bootstrap = function(cb) {
 
     // It's very important to trigger this callack method when you are finished 
     // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
     cb();
-
-    GLOBAL.q = require('q');
 };

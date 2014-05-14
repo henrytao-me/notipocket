@@ -30,9 +30,13 @@ module.exports.routes = {
 
     'post /api/user/register': 'UserController.register',
 
-    'post /aapi/user/register': 'UserController.registerw',
+    'post /api/user/authenticate/email': 'UserController.authenticateEmail',
 
+    'get /': {
+        view: 'home/login'
+    },
 
+    'get /api/user': 'UserController.read'
 };
 
 module.exports.__routes = {

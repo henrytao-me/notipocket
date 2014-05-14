@@ -33,6 +33,9 @@ describe('config', function() {
         require('sails').lift(require('optimist').argv, function() {
             done();
         });
-    }, 5000);
+
+        // disable timeout
+        this.timeout(0);
+    });
 
 });

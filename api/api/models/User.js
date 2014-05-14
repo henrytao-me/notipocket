@@ -4,6 +4,22 @@ var _this = {
         password: 'STRING'
     },
 
+    authenticateEmail: function(email, password) {
+        var _this = this;
+        return q().then(function() {
+            return _this.findOne({
+                email: email,
+                password: password
+
+            }).then(function(data) {
+                if (!data) {
+                    throw new Error('Invalid email and password');
+                }
+                return data;
+            });
+        });
+    },
+
     register: function(email, password) {
         var _this = this;
         return q().then(function() {
