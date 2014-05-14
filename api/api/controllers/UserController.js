@@ -1,4 +1,5 @@
 var passport = require('passport');
+var uuid = require('node-uuid');
 
 var _this = {
 
@@ -19,11 +20,18 @@ var _this = {
                         message: err.message
                     });
                 }
-                return res.json({
-                    status: 'ok',
-                    data: {
-                        token: 'hello moto'
-                    }
+                // get token
+                Token.create({
+                    token: uuid.v1(),
+                    userId: user.id
+
+                }).then(function(token) {
+                    return res.json({
+                        status: 'ok',
+                        data: {
+                            token: token.token
+                        }
+                    });
                 });
             });
         })(req, res);
@@ -31,23 +39,25 @@ var _this = {
 
     logout: function(req, res) {
         req.logout();
+        User.
         res.json({
             status: 'ok'
         });
     },
 
     read: function(req, res) {
-
-        User.findOne({
-            email: 'hi@henrytao.me'
-
-        }).then(function(data) {
+        return User.read(req.token.userId).then(function(data) {
             return res.json({
                 status: 'ok',
                 data: data
             });
+        }).
+        catch (function(err) {
+            return res.json({
+                status: 'error',
+                message: err.message
+            });
         });
-        
     },
 
     register: function(req, res) {

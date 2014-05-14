@@ -7,6 +7,7 @@ var _this = {
             required: true,
             unique: true
         },
+
         password: {
             type: 'string',
             required: true
@@ -65,8 +66,22 @@ var _this = {
         });
     },
 
-    read: function() {
+    read: function(id) {
+        var _this = this;
+        return q().then(function() {
+            if (!id) {
+                throw new Error('Missing id');
+            }
+            return _this.findOne({
+                id: id
 
+            }).then(function(data) {
+                if (!data) {
+                    throw new Error('User not found');
+                }
+                return data;
+            });
+        });
     },
 
     register: function(email, password) {

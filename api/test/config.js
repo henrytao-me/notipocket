@@ -16,14 +16,29 @@ var _this = {
     }
 };
 
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+
+request.url = function(url) {
+    if (url.indexOf('http') !== 0) {
+        url = _this.api.host + ':' + _this.api.port + url;
+    }
+    return url;
+};
+request.uri = request.url;
+
 _.each(['head', 'get', 'put', 'post', 'del'], function(method) {
     request[method] = function(url) {
-        url = _this.api.host + ':' + _this.api.port + url;
-        arguments[0] = url;
+        arguments[0] = request.url(url);
         return _this.method[method].apply(request, arguments);
     };
 });
 
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
 describe('config', function() {
 
     it('should init', function(done) {
