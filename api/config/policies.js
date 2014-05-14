@@ -19,7 +19,6 @@ module.exports.policies = {
     '*': 'isAuthorized',
     UserController: {
         authenticateEmail: true,
-        logout: true,
         register: true
     }
 

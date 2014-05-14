@@ -34,18 +34,25 @@ var _this = {
                     });
                 });
             });
-        })(req, res);
+        })(req, res, next);
     },
 
-    logout: function(req, res) {
+    logout: function(req, res, next) {
         req.logout();
-        User.
-        res.json({
-            status: 'ok'
+        Token.clear(req.token.token).then(function() {
+            return res.json({
+                status: 'ok'
+            });
+        }).
+        catch (function(err) {
+            return res.json({
+                status: 'error',
+                message: err.message
+            });
         });
     },
 
-    read: function(req, res) {
+    read: function(req, res, next) {
         return User.read(req.token.userId).then(function(data) {
             return res.json({
                 status: 'ok',
@@ -60,7 +67,7 @@ var _this = {
         });
     },
 
-    register: function(req, res) {
+    register: function(req, res, next) {
         return User.register(req.body.email, req.body.password).then(function(data) {
             return res.json({
                 status: 'ok'

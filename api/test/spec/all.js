@@ -6,7 +6,11 @@ var _this = {
     }
 };
 
-describe('all', function() {
+//////////////////////////////////////////
+// before login
+//////////////////////////////////////////
+
+describe('before login', function() {
 
     it('should post /api/user/register', function(done) {
         request.post('/api/user/register').send({
@@ -18,6 +22,14 @@ describe('all', function() {
             done();
         });
     });
+
+});
+
+//////////////////////////////////////////
+// login
+//////////////////////////////////////////
+
+describe('login', function() {
 
     it('should post /api/user/authenticate/email', function(done) {
         request.post('/api/user/authenticate/email').send({
@@ -35,14 +47,48 @@ describe('all', function() {
         });
     });
 
-    it('should get /api/user', function(done){
+});
+
+//////////////////////////////////////////
+// after login
+//////////////////////////////////////////
+
+describe('after login', function() {
+
+    it('should get /api/user', function(done) {
         request.get('/api/user').set({
             'Authorization': 'BEARER ' + _this.user.token
-        }).end(function(res){
+        }).end(function(res) {
             expect(res.body).to.have.property('status', 'ok');
             expect(res.body).to.have.property('data');
             done();
         });
     });
+
+});
+
+//////////////////////////////////////////
+// logout
+//////////////////////////////////////////
+
+describe('logout', function() {
+
+    it('should get /api/user/logout', function(done) {
+        request.get('/api/user/logout').set({
+            'Authorization': 'BEARER ' + _this.user.token
+        }).end(function(res) {
+            expect(res.body).to.have.property('status', 'ok');
+            done();
+        });
+    });
+
+});
+
+//////////////////////////////////////////
+// after logout
+//////////////////////////////////////////
+
+describe('after logout', function() {
+
 
 });
