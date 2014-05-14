@@ -23,9 +23,9 @@ var _this = {
             type: 'STRING'
         },
 
-        status: {
-            type: 'STRING',
-            defaultsTo: 'active'
+        active: {
+            type: 'boolean',
+            defaultsTo: true
         }
     },
 
@@ -33,7 +33,7 @@ var _this = {
         var _this = this;
         return _this.findOne({
             token: token,
-            status: 'active'
+            active: true
 
         }).then(function(data) {
             if (!data) {
@@ -48,7 +48,7 @@ var _this = {
         return _this.update({
             token: token
         }, {
-            status: 'deactive'
+            active: false
         });
     },
 

@@ -85,14 +85,14 @@ describe('after login', function() {
 
 describe('logout', function() {
 
-    it('should get /api/user/logout', function(done) {
-        request.get('/api/user/logout').set({
-            'Authorization': 'BEARER ' + _this.user.token
-        }).end(function(res) {
-            expect(res.body).to.have.property('status', 'ok');
-            done();
-        });
-    });
+    // it('should get /api/user/logout', function(done) {
+    //     request.get('/api/user/logout').set({
+    //         'Authorization': 'BEARER ' + _this.user.token
+    //     }).end(function(res) {
+    //         expect(res.body).to.have.property('status', 'ok');
+    //         done();
+    //     });
+    // });
 
 });
 
