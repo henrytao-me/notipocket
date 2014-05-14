@@ -1,7 +1,23 @@
 var _this = {
     attributes: {
-        email: 'STRING',
-        password: 'STRING'
+        email: {
+            type: 'string',
+            required: true,
+            unique: true
+        },
+        password: {
+            type: 'string',
+            required: true
+        },
+
+        //Override toJSON method to remove password from API
+        toJSON: function() {
+            var obj = this.toObject();
+            // Remove the password object value
+            delete obj.password;
+            // return the new object without password
+            return obj;
+        }
     },
 
     authenticateEmail: function(email, password) {

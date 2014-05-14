@@ -26,13 +26,17 @@ var _this = {
                     }
                 });
             });
-        })(req, res, next);
+        })(req, res);
     },
 
-    read: function(req, res){
+    logout: function(req, res) {
+        req.logout();
+        res.json({
+            status: 'ok'
+        });
+    },
 
-        console.log('aaaaaaaaaaaaa read', req);
-
+    read: function(req, res) {
         return res.json({
             status: 'ok'
         });
