@@ -44,7 +44,7 @@ var _this = {
     /////////////////////////////////////////////////
     /////////////////////////////////////////////////
 
-    authenticateEmail: function(email, password) {
+    _authenticateEmail: function(email, password) {
         var _this = this;
         return q().then(function() {
             return _this.findOne({
@@ -66,7 +66,7 @@ var _this = {
         });
     },
 
-    read: function(id) {
+    _read: function(id) {
         var _this = this;
         return q().then(function() {
             if (!id) {
@@ -84,7 +84,7 @@ var _this = {
         });
     },
 
-    register: function(email, password) {
+    _register: function(email, password) {
         var _this = this;
         return q().then(function() {
             if (!email || !password) {

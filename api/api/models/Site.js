@@ -22,7 +22,19 @@ var _this = {
     /////////////////////////////////////////////////
     /////////////////////////////////////////////////
 
-
+    _create: function(url, title, tags){
+        var _this = this;
+        return q().then(function(){
+            if(!url){
+                throw new Error('Missing URL');
+            }
+            return _this.create({
+                url: url,
+                title: title,
+                tags: tags
+            });
+        });
+    }
 
 };
 

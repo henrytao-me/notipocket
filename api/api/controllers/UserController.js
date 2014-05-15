@@ -20,7 +20,7 @@ var _this = {
                     });
                 }
                 // get token
-                Token.refresh(user.id).then(function(data) {
+                Token._create(user.id).then(function(data) {
                     return res.json({
                         status: 'ok',
                         data: data
@@ -32,7 +32,7 @@ var _this = {
 
     logout: function(req, res, next) {
         req.logout();
-        Token.clear(req.token.token).then(function() {
+        Token._clear(req.token.token).then(function() {
             return res.json({
                 status: 'ok'
             });
@@ -46,7 +46,7 @@ var _this = {
     },
 
     read: function(req, res, next) {
-        return User.read(req.token.userId).then(function(data) {
+        return User._read(req.token.userId).then(function(data) {
             return res.json({
                 status: 'ok',
                 data: data
@@ -60,23 +60,8 @@ var _this = {
         });
     },
 
-    // refreshToken: function(req, res, next) {
-    //     return Token.refresh().then(function(data) {
-    //         return res.json({
-    //             status: 'ok',
-    //             data: data
-    //         });
-    //     }).
-    //     catch (function(err) {
-    //         return res.json({
-    //             status: 'error',
-    //             message: err.message
-    //         });
-    //     });
-    // },
-
     register: function(req, res, next) {
-        return User.register(req.body.email, req.body.password).then(function(data) {
+        return User._register(req.body.email, req.body.password).then(function(data) {
             return res.json({
                 status: 'ok'
             });

@@ -65,17 +65,24 @@ describe('after login', function() {
         });
     });
 
-    // it('should get /api/user/refresh-token', function(done) {
-    //     request.get('/api/user/refresh-token').end(function(res) {
-    //         expect(res.body).to.have.property('status', 'ok');
-    //         expect(res.body).to.have.property('data');
-    //         expect(res.body.data).to.have.property('token');
+    it('should post /api/site', function(done) {
+        request.post('/api/site').set({
+            'Authorization': 'BEARER ' + _this.user.token
+        }).send({
+            url: 'http:/notipocket.com',
+            title: 'notipock',
+            tags: ['a', 'b']
 
-    //         // store
-    //         _this.user.token = res.body.data.token;
-    //         done();
-    //     });
-    // });
+        }).end(function(res) {
+            expect(res.body).to.have.property('status', 'ok');
+            expect(res.body).to.have.property('data');
+            expect(res.body.data).to.have.property('id');
+            expect(res.body.data).to.have.property('url');
+            expect(res.body.data).to.have.property('title');
+            expect(res.body.data).to.have.property('tags');
+            done();
+        });
+    });
 
 });
 

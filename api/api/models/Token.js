@@ -29,7 +29,7 @@ var _this = {
         }
     },
 
-    check: function(token) {
+    _check: function(token) {
         var _this = this;
         return _this.findOne({
             token: token,
@@ -43,7 +43,7 @@ var _this = {
         });
     },
 
-    clear: function(token) {
+    _clear: function(token) {
         var _this = this;
         return _this.update({
             token: token
@@ -52,7 +52,7 @@ var _this = {
         });
     },
 
-    refresh: function(userId) {
+    _create: function(userId) {
         var _this = this;
         return _this.create({
             token: uuid.v1(),

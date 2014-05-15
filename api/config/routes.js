@@ -28,11 +28,11 @@
 
 module.exports.routes = {
 
+    'post   /api/site': 'SiteController.create',
+
     'get    /api/user': 'UserController.read',
 
     'post   /api/user/authenticate/email': 'UserController.authenticateEmail',
-
-    // 'get    /api/user/refresh-token': 'UserController.refreshToken',
 
     'post   /api/user/register': 'UserController.register',
 

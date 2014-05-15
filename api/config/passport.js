@@ -8,7 +8,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
+    User._findById(id, function(err, user) {
         done(err, user);
     });
 });
@@ -21,7 +21,7 @@ passport.use(new LocalStrategy({
     passwordField: 'password'
 
 }, function(email, password, done) {
-    return User.authenticateEmail(email, password).then(function(data) {
+    return User._authenticateEmail(email, password).then(function(data) {
         return done(null, data);
     }).
     catch (function(err) {
