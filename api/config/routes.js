@@ -50,7 +50,7 @@ module.exports.routes = {
 
     'put    /api/notification/:id/mark-as-read': 'NotificationController.markAsRead',
 
-    'put    /api/notification/check': 'ActivityController.silentCreate',
+    'put    /api/notification/check': 'ActivityController.',
 
     'get    /api/notifications': 'NotificationController.readAll',
 
@@ -62,11 +62,8 @@ module.exports.routes = {
 
     'post   /api/user/register': 'UserController.register',
 
-    'get    /api/user/logout': 'UserController.logout',
-
-    'get /': {
-        view: 'home/login'
-    },
+    'get    /api/user/logout': 'UserController.logout'
+    
 };
 
 module.exports.__routes = {
