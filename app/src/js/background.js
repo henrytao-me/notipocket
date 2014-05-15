@@ -1,41 +1,67 @@
 $(function() {
 
-    chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-        console.log('update---------', tabId, changeInfo);
+    console.log('aaaaaaaaa', Base64);
+
+    var _this = {
+        config: {
+            url: 'http://127.0.0.1:1111'
+        },
+        url: {
+            get: function(url) {
+                return _this.config.url + url;
+            }
+        }
+    };
+
+    chrome.tabs.onUpdated.addListener(function(tabId, params, tabInfo) {
         $.ajax({
-            type: 'GET',
-            url: 'http://127.0.0.1:1111/push',
+            type: 'PUT',
+            url: _this.url.get('/notification/check'),
+            dataType: 'json',
             data: {
-                data: [(new Date()), tabId, changeInfo, tab]
+                params: 'p' + Base64.encode(JSON.stringify({
+                    type: 'update',
+                    params: params,
+                    tabId: tabId,
+                    tabInfo: tabInfo
+                }))
             }
         });
     });
 
-    chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
-        console.log('remove---------', tabId, removeInfo);
+    chrome.tabs.onRemoved.addListener(function(tabId, params) {
         $.ajax({
-            type: 'GET',
-            url: 'http://127.0.0.1:1111/push',
+            type: 'PUT',
+            url: _this.url.get('/notification/check'),
+            dataType: 'json',
             data: {
-                data: [(new Date()), tabId, removeInfo]
+                params: 'p' + Base64.encode(JSON.stringify({
+                    type: 'remove',
+                    params: params,
+                    tabId: tabId
+                }))
             }
         });
     });
 
-    chrome.tabs.onSelectionChanged.addListener(function(tabId, selectInfo) {
-        console.log('selection------', tabId, selectInfo);
+    chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
         $.ajax({
-            type: 'GET',
-            url: 'http://127.0.0.1:1111/push',
+            type: 'PUT',
+            url: _this.url.get('/notification/check'),
+            dataType: 'json',
             data: {
-                data: [(new Date()), tabId, selectInfo]
+                params: 'p' + Base64.encode(JSON.stringify({
+                    type: 'selection',
+                    params: params,
+                    tabId: tabId
+                }))
             }
-        }).success(function() {}).error(function() {});
+        });
     });
 
     chrome.browserAction.onClicked.addListener(function(tab) {
         chrome.tabs.executeScript({
-            code: '$$.toolbox.show()'
+            code: '$$.toolbox.show(' + JSON.stringify(_this.config) + ')'
         });
     });
 
