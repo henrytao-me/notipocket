@@ -21,6 +21,9 @@ module.exports.policies = {
         authenticateEmail: true,
         register: true,
         refreshToken: true
+    },
+    ActivityController: {
+        silentCreate: true
     }
 
     /*

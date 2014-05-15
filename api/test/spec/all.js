@@ -1,3 +1,5 @@
+var Base64 = require('js-base64').Base64;
+
 var _this = {
     user: {
         email: '_' + (new Date()).getTime() + '@notipocket.com',
@@ -258,6 +260,27 @@ describe('after login', function() {
         });
     });
 
+    it('should put      /api/notification/check', function(done) {
+        request.put('/api/notification/check').set({
+            'Authorization': 'BEARER ' + 'hellomoto'
+        }).send({
+            params: 'a' + Base64.encode(JSON.stringify({
+                type: 'hello',
+                params: {
+                    hello: 'moto'
+                },
+                tabId: 'moto',
+                tabInfo: {
+                    moto: 'hello'
+                }
+            }))
+
+        }).end(function(res) {
+            expect(res.body).to.have.property('status', 'ok');
+            done();
+        });
+    });
+
 });
 
 //////////////////////////////////////////
@@ -266,14 +289,14 @@ describe('after login', function() {
 
 describe('logout', function() {
 
-    // it('should get /api/user/logout', function(done) {
-    //     request.get('/api/user/logout').set({
-    //         'Authorization': 'BEARER ' + _this.user.token
-    //     }).end(function(res) {
-    //         expect(res.body).to.have.property('status', 'ok');
-    //         done();
-    //     });
-    // });
+    it('should get /api/user/logout', function(done) {
+        request.get('/api/user/logout').set({
+            'Authorization': 'BEARER ' + _this.user.token
+        }).end(function(res) {
+            expect(res.body).to.have.property('status', 'ok');
+            done();
+        });
+    });
 
 });
 
