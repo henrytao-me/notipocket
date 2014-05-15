@@ -1,10 +1,8 @@
 $(function() {
 
-    console.log('aaaaaaaaa', Base64);
-
     var _this = {
         config: {
-            url: 'http://127.0.0.1:1111'
+            url: 'http://127.0.0.1:1337'
         },
         url: {
             get: function(url) {
@@ -16,7 +14,7 @@ $(function() {
     chrome.tabs.onUpdated.addListener(function(tabId, params, tabInfo) {
         $.ajax({
             type: 'PUT',
-            url: _this.url.get('/notification/check'),
+            url: _this.url.get('/api/notification/check'),
             dataType: 'json',
             data: {
                 params: 'p' + Base64.encode(JSON.stringify({
@@ -32,7 +30,7 @@ $(function() {
     chrome.tabs.onRemoved.addListener(function(tabId, params) {
         $.ajax({
             type: 'PUT',
-            url: _this.url.get('/notification/check'),
+            url: _this.url.get('/api/notification/check'),
             dataType: 'json',
             data: {
                 params: 'p' + Base64.encode(JSON.stringify({
@@ -47,7 +45,7 @@ $(function() {
     chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
         $.ajax({
             type: 'PUT',
-            url: _this.url.get('/notification/check'),
+            url: _this.url.get('/api/notification/check'),
             dataType: 'json',
             data: {
                 params: 'p' + Base64.encode(JSON.stringify({

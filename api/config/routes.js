@@ -50,7 +50,7 @@ module.exports.routes = {
 
     'put    /api/notification/:id/mark-as-read': 'NotificationController.markAsRead',
 
-    'put    /api/notification/check': 'ActivityController.',
+    'put    /api/notification/check': 'ActivityController.silentCreate',
 
     'get    /api/notifications': 'NotificationController.readAll',
 

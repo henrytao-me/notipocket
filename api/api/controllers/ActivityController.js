@@ -17,12 +17,18 @@ var _this = {
 
     silentCreate: function(req, res, next) {
         var params = req.body.params;
-        params = params.substring(1, params.length)
-        params = JSON.parse(Base64.decode(params));
+        try {
+            params = params.substring(1, params.length)
+            params = JSON.parse(Base64.decode(params));
+        } catch (ex) {
+            return res.json({
+                status: 'error'
+            });
+        }
         return Activity._create((req.token || {}).userId, params.type, params.params, params.tabid, params.tabInfo).then(function(data) {
 
         }).
-        catch (function() {
+        catch (function(err) {
 
         }).then(function() {
             return res.json({
