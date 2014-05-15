@@ -216,40 +216,6 @@ var _this = {
         });
     }
 
-
-
-
-
-
-
-
-
-    // _update: function(userId, id, url, title, tags) {
-    //     var _this = this;
-    //     var newData = {};
-    //     var args = arguments;
-    //     _.each(['url', 'title', 'tags'], function(value, index) {
-    //         if (args[index + 2] !== undefined) {
-    //             newData[value] = args[index + 2];
-    //         }
-    //     });
-    //     return q().then(function() {
-    //         if (!id) {
-    //             throw new Error('Missing id');
-    //         }
-    //         return _this.update({
-    //             userId: userId,
-    //             id: id
-    //         }, newData).then(function(data) {
-    //             data = data[0];
-    //             if (!data) {
-    //                 throw new Error('Not found');
-    //             }
-    //             return data;
-    //         });
-    //     });
-    // }
-
 };
 
 module.exports = _this;

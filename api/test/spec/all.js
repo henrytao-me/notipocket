@@ -239,6 +239,25 @@ describe('after login', function() {
         });
     });
 
+    it('should post     /api/activity', function(done) {
+        request.post('/api/activity').set({
+            'Authorization': 'BEARER ' + _this.user.token
+        }).send({
+            type: 'hello',
+            params: {
+                hello: 'moto'
+            },
+            tabId: 'moto',
+            tabInfo: {
+                moto: 'hello'
+            }
+
+        }).end(function(res) {
+            expect(res.body).to.have.property('status', 'ok');
+            done();
+        });
+    });
+
 });
 
 //////////////////////////////////////////

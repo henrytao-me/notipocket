@@ -101,29 +101,6 @@ var _this = {
         });
     }
 
-
-
-
-
-
-
-
-
-    // update: function(req, res, next) {
-    //     return Link._update(req.token.userId, req.params.id, req.body.url, req.body.title, req.body.tags).then(function(data) {
-    //         return res.json({
-    //             status: 'ok',
-    //             data: data
-    //         });
-    //     }).
-    //     catch (function(err) {
-    //         return res.json({
-    //             status: 'error',
-    //             message: err.message
-    //         });
-    //     });
-    // }
-
 };
 
 module.exports = _this;

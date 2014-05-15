@@ -28,6 +28,8 @@
 
 module.exports.routes = {
 
+    'post   /api/activity': 'ActivityController.create',
+
     'post   /api/link': 'LinkController.create',
 
     'delete /api/link/:id': 'LinkController.delete',
