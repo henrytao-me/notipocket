@@ -74,10 +74,9 @@ var _this = {
             }
             return _this.findOne({
                 id: id
-
             }).then(function(data) {
                 if (!data) {
-                    throw new Error('User not found');
+                    throw new Error('Not found');
                 }
                 return data;
             });

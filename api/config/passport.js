@@ -8,8 +8,10 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    User._findById(id, function(err, user) {
-        done(err, user);
+    User._read(id).then(function(data){
+        done(null, data); 
+    }).catch(function(err){
+        done(err, null);
     });
 });
 

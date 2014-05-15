@@ -30,6 +30,14 @@ module.exports.routes = {
 
     'post   /api/site': 'SiteController.create',
 
+    'delete /api/site/:id': 'SiteController.delete',
+
+    'get    /api/site/:id': 'SiteController.read',
+
+    'put    /api/site/:id': 'SiteController.update',
+
+    'get    /api/sites': 'SiteController.readAll',
+
     'get    /api/user': 'UserController.read',
 
     'post   /api/user/authenticate/email': 'UserController.authenticateEmail',

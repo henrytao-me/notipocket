@@ -3,6 +3,16 @@ var _this = {
         email: '_' + (new Date()).getTime() + '@notipocket.com',
         password: '123',
         token: null
+    },
+    site: {},
+
+    expect: {
+        site: function(data) {
+            expect(data).to.have.property('id');
+            expect(data).to.have.property('url');
+            expect(data).to.have.property('title');
+            expect(data).to.have.property('tags');
+        }
     }
 };
 
@@ -12,7 +22,7 @@ var _this = {
 
 describe('before login', function() {
 
-    it('should post /api/user/register', function(done) {
+    it('should post     /api/user/register', function(done) {
         request.post('/api/user/register').send({
             email: _this.user.email,
             password: _this.user.password
@@ -31,7 +41,7 @@ describe('before login', function() {
 
 describe('login', function() {
 
-    it('should post /api/user/authenticate/email', function(done) {
+    it('should post     /api/user/authenticate/email', function(done) {
         request.post('/api/user/authenticate/email').send({
             email: _this.user.email,
             password: _this.user.password
@@ -55,7 +65,7 @@ describe('login', function() {
 
 describe('after login', function() {
 
-    it('should get /api/user', function(done) {
+    it('should get      /api/user', function(done) {
         request.get('/api/user').set({
             'Authorization': 'BEARER ' + _this.user.token
         }).end(function(res) {
@@ -65,7 +75,7 @@ describe('after login', function() {
         });
     });
 
-    it('should post /api/site', function(done) {
+    it('should post     /api/site', function(done) {
         request.post('/api/site').set({
             'Authorization': 'BEARER ' + _this.user.token
         }).send({
@@ -76,10 +86,60 @@ describe('after login', function() {
         }).end(function(res) {
             expect(res.body).to.have.property('status', 'ok');
             expect(res.body).to.have.property('data');
-            expect(res.body.data).to.have.property('id');
-            expect(res.body.data).to.have.property('url');
-            expect(res.body.data).to.have.property('title');
-            expect(res.body.data).to.have.property('tags');
+            _this.expect.site(res.body.data);
+
+            // store
+            _this.site = res.body.data;
+            done();
+        });
+    });
+
+    it('should get      /api/site/:id', function(done) {
+        request.get('/api/site/' + _this.site.id).set({
+            'Authorization': 'BEARER ' + _this.user.token
+        }).end(function(res) {
+            expect(res.body).to.have.property('status', 'ok');
+            expect(res.body).to.have.property('data');
+            _this.expect.site(res.body.data);
+            done();
+        });
+    });
+
+    it('should put      /api/site/:id', function(done) {
+        request.put('/api/site/' + _this.site.id).set({
+            'Authorization': 'BEARER ' + _this.user.token
+        }).send({
+            url: 'http://blog.notipocket.com'
+        }).end(function(res) {
+            expect(res.body).to.have.property('status', 'ok');
+            expect(res.body).to.have.property('data');
+            _this.expect.site(res.body.data);
+
+            // store
+            _this.site = res.body.data;
+            done();
+        });
+    });
+
+    it('should get      /api/sites', function(done) {
+        request.get('/api/sites').set({
+            'Authorization': 'BEARER ' + _this.user.token
+        }).end(function(res){
+            expect(res.body).to.have.property('status', 'ok');
+            expect(res.body).to.have.property('data');
+            expect(res.body.data).to.be.an('array');
+            _.each(res.body.data, function(data){
+                _this.expect.site(data);
+            });
+            done();
+        });
+    });
+
+    it('should delete   /api/site/:id', function(done) {
+        request.del('/api/site/' + _this.site.id).set({
+            'Authorization': 'BEARER ' + _this.user.token
+        }).end(function(res) {
+            expect(res.body).to.have.property('status', 'ok');
             done();
         });
     });
