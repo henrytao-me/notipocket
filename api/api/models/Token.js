@@ -4,26 +4,26 @@ var _this = {
 
     attributes: {
         token: {
-            type: 'STRING',
+            type: 'string',
             required: true,
             unique: true
         },
 
         userId: {
-            type: 'STRING',
+            type: 'string',
             required: true
         },
 
         clientId: {
-            type: 'STRING',
+            type: 'string',
             // required: true
         },
 
         scope: {
-            type: 'STRING'
+            type: 'string'
         },
 
-        active: {
+        isActive: {
             type: 'boolean',
             defaultsTo: true
         }
@@ -33,7 +33,7 @@ var _this = {
         var _this = this;
         return _this.findOne({
             token: token,
-            active: true
+            isActive: true
 
         }).then(function(data) {
             if (!data) {
@@ -48,7 +48,7 @@ var _this = {
         return _this.update({
             token: token
         }, {
-            active: false
+            isActive: false
         });
     },
 

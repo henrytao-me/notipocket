@@ -28,15 +28,29 @@
 
 module.exports.routes = {
 
-    'post   /api/site': 'SiteController.create',
+    'post   /api/link': 'LinkController.create',
 
-    'delete /api/site/:id': 'SiteController.delete',
+    'delete /api/link/:id': 'LinkController.delete',
 
-    'get    /api/site/:id': 'SiteController.read',
+    'get    /api/link/:id': 'LinkController.read',
 
-    'put    /api/site/:id': 'SiteController.update',
+    'put    /api/link/:id': 'LinkController.update',
 
-    'get    /api/sites': 'SiteController.readAll',
+    'get    /api/links': 'LinkController.readAll',
+
+    'post   /api/notification': 'NotificationController.create',
+
+    'delete /api/notification/:id': 'NotificationController.delete',
+
+    'get    /api/notification/:id': 'NotificationController.read',
+
+    'put    /api/notification/:id/archive': 'NotificationController.archive',
+
+    'put    /api/notification/:id/mark-as-read': 'NotificationController.markAsRead',
+
+    'get    /api/notifications': 'NotificationController.readAll',
+
+    'put    /api/notifications/mark-as-read': 'NotificationController.markAsReadAll',
 
     'get    /api/user': 'UserController.read',
 

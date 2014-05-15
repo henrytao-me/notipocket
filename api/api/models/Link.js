@@ -18,7 +18,7 @@ var _this = {
             type: 'array'
         },
 
-        active: {
+        isActive: {
             type: 'boolean',
             defaultsTo: true
         },
@@ -28,6 +28,7 @@ var _this = {
             var obj = this.toObject();
             // Remove the password object value
             delete obj.userId;
+            delete obj.isActive;
             // return the new object without password
             return obj;
         }
@@ -62,7 +63,13 @@ var _this = {
                 userId: userId,
                 id: id
             }, {
-                active: false
+                isActive: false
+            }).then(function(data) {
+                data = data[0];
+                if (!data) {
+                    throw new Error('Not found');
+                }
+                return data;
             });
         });
     },
@@ -76,7 +83,7 @@ var _this = {
             return _this.findOne({
                 userId: userId,
                 id: id,
-                active: true
+                isActive: true
             }).then(function(data) {
                 if (!data) {
                     throw new Error('Not found');
@@ -86,9 +93,9 @@ var _this = {
         });
     },
 
-    _readAll: function(userId){
+    _readAll: function(userId) {
         var _this = this;
-        return q().then(function(){
+        return q().then(function() {
             return _this.find({
                 userId: userId
             })

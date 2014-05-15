@@ -1,7 +1,7 @@
 var _this = {
 
     create: function(req, res, next) {
-        return Site._create(req.token.userId, req.body.url, req.body.title, req.body.tags).then(function(data) {
+        return Link._create(req.token.userId, req.body.url, req.body.title, req.body.tags).then(function(data) {
             return res.json({
                 status: 'ok',
                 data: data
@@ -16,10 +16,9 @@ var _this = {
     },
 
     'delete': function(req, res, next) {
-        return Site._delete(req.token.userId, req.params.id).then(function(data) {
+        return Link._delete(req.token.userId, req.params.id).then(function(data) {
             return res.json({
-                status: 'ok',
-                data: data
+                status: 'ok'
             });
         }).
         catch (function(err) {
@@ -31,7 +30,7 @@ var _this = {
     },
 
     read: function(req, res, next) {
-        return Site._read(req.token.userId, req.params.id).then(function(data) {
+        return Link._read(req.token.userId, req.params.id).then(function(data) {
             return res.json({
                 status: 'ok',
                 data: data
@@ -46,7 +45,7 @@ var _this = {
     },
 
     readAll: function(req, res, next) {
-        return Site._readAll(req.token.userId).then(function(data) {
+        return Link._readAll(req.token.userId).then(function(data) {
             return res.json({
                 status: 'ok',
                 data: data
@@ -61,7 +60,7 @@ var _this = {
     },
 
     update: function(req, res, next) {
-        return Site._update(req.token.userId, req.params.id, req.body.url, req.body.title, req.body.tags).then(function(data) {
+        return Link._update(req.token.userId, req.params.id, req.body.url, req.body.title, req.body.tags).then(function(data) {
             return res.json({
                 status: 'ok',
                 data: data
