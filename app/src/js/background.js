@@ -2,7 +2,11 @@ $(function() {
 
     var _this = {
         config: {
-            url: 'http://127.0.0.1:1337'
+            url: 'http://127.0.0.1:1337',
+            resource: {
+                template: chrome.extension.getURL('html/main.html'),
+                logo: chrome.extension.getURL('image/notipocket.icon.full.png')
+            }
         },
         url: {
             get: function(url) {
@@ -59,7 +63,7 @@ $(function() {
 
     chrome.browserAction.onClicked.addListener(function(tab) {
         chrome.tabs.executeScript({
-            code: '$$.toolbox.show(' + JSON.stringify(_this.config) + ')'
+            code: '$$.main.show(' + JSON.stringify(_this.config) + ')'
         });
     });
 

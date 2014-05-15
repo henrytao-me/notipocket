@@ -15,8 +15,8 @@
         }
     },
     "content_scripts": [{
-        "css": ["css/toolbox.css"],
-        "js": ["js/jquery.js", "js/toolbox.js"],
+        "css": ["css/bootstrap.css", "css/main.css"],
+        "js": ["js/jquery.js", "js/underscore.js", "js/main.js"],
         "matches": ["*://*/*"]
     }],
     "icons": {
@@ -32,5 +32,9 @@
         "http://*/*",
         "https://*/*"
     ],
-    "content_security_policy": "script-src 'self'; object-src 'self'"
+    "content_security_policy": "script-src 'self'; object-src 'self'",
+    "web_accessible_resources": [
+        "html/main.html",
+        "image/notipocket.icon.full.png"
+    ]
 }
