@@ -5,12 +5,13 @@ module.exports = function(grunt) {
     grunt.initConfig({
         watch: {
             less: {
-                files: 'src/css/*.*',
-                tasks: ['clean:css']
+                files: 'src/less/**/*.*',
+                tasks: ['clean:css', 'less:less']
             }
         },
         clean: {
-            build: ['build']
+            build: ['build'],
+            css: ['src/css']
         },
         less: {
             less: {
@@ -43,6 +44,16 @@ module.exports = function(grunt) {
                     ext: '.css'
                 }]
             }
+        },
+        uglify: {
+            build: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/js',
+                    src: ['**/*.js'],
+                    dest: 'build/js'
+                }]
+            }
         }
     });
 
@@ -50,8 +61,8 @@ module.exports = function(grunt) {
      __init__ TASK
      *********************************************************************************/
 
-    grunt.registerTask('default', ['less:less', 'watch']);
+    grunt.registerTask('default', ['clean:css', 'less:less', 'watch']);
 
-    grunt.registerTask('build', ['clean:build', 'less:less', 'copy:build', 'cssmin:build']);
+    grunt.registerTask('build', ['clean:build', 'clean:css', 'less:less', 'copy:build', 'cssmin:build', 'uglify:build']);
 
 };

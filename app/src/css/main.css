@@ -1,39 +1,39 @@
 /*
  *
- *
+ * sample
  *
  *
  */
- .notipocket-main {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    z-index: 999999;
-    opacity: 0.98;
+.notipocket-main {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 999999;
+  opacity: 0.98;
 }
 .notipocket-main > .wrapper {
-    -moz-box-shadow: 0px 0px 20px #888;
-    -webkit-box-shadow: 0px 0px 20px #888;
-    box-shadow: 0px 0px 20px #888;
+  -moz-box-shadow: 0px 0px 20px #888;
+  -webkit-box-shadow: 0px 0px 20px #888;
+  box-shadow: 0px 0px 20px #888;
 }
 .notipocket-main .main-header {
-    position: relative;
-    height: 70px;
-    background-color: #fcfcfc;
+  position: relative;
+  height: 70px;
+  background-color: #fcfcfc;
 }
 .notipocket-main .main-header > .container > div > .pull-left {
-    margin-top: 18px;
+  margin-top: 18px;
 }
 .notipocket-main .main-header > .container > div > .pull-right {
-    margin-top: 18px;
+  margin-top: 18px;
 }
 .notipocket-main .main-header > .container > div > .pull-right > li {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 .notipocket-main .main-content {
-    position: relative;
-    min-height: 350px;
-    background-color: #666;
+  position: relative;
+  min-height: 350px;
+  background-color: #666;
 }

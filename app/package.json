@@ -1,7 +1,7 @@
 {
     "name": "extension",
     "version": "1.0.0",
-    "dependencies": {
+    "devDependencies": {
         "grunt": "0.4.4",
         "grunt-autoprefixer": "0.2.0",
         "grunt-concurrent": "0.3.0",
