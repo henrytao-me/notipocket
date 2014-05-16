@@ -1,39 +1,81 @@
-/*
- *
- * sample
- *
- *
- */
- .notipocket-main {
+.notipocket-main {
+    @import "element.less";
+
     position: fixed;
     top: 0px;
     left: 0px;
     right: 0px;
     bottom: 0px;
     z-index: 999999;
-    opacity: 0.98;
-}
-.notipocket-main > .wrapper {
-    -moz-box-shadow: 0px 0px 20px #888;
-    -webkit-box-shadow: 0px 0px 20px #888;
-    box-shadow: 0px 0px 20px #888;
-}
-.notipocket-main .main-header {
-    position: relative;
-    height: 70px;
-    background-color: #fcfcfc;
-}
-.notipocket-main .main-header > .container > div > .pull-left {
-    margin-top: 18px;
-}
-.notipocket-main .main-header > .container > div > .pull-right {
-    margin-top: 18px;
-}
-.notipocket-main .main-header > .container > div > .pull-right > li {
-    margin-left: 10px;
-}
-.notipocket-main .main-content {
-    position: relative;
-    min-height: 350px;
-    background-color: #666;
+    .bg-color {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        opacity: 0.98;
+        background-color: #ffffff;
+    }
+    .main-header {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        height: 70px;
+        .box-shadow(0px 0px 10px #888);
+        > .wrapper {
+            position: relative;
+            > div {
+                > .pull-left {
+                    margin-top: 18px;
+                }
+                > .pull-right {
+                    margin-top: 18px;
+                    > li {
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+        .toolbar-star {
+            color: #ccc;
+            cursor: pointer;
+        }
+        .toolbar-star.active {
+            color: #ff5555;
+        }
+        .toolbar-tags {
+            display: none;
+        }
+        .toolbar-addTags {
+            
+        }
+        .toolbar-saveTags {
+            display: none;
+        }
+        .toolbar-viewList {
+            
+        }
+        .toolbar-closeList {
+            display: none;
+        }
+    }
+    .main-content {
+        position: absolute;
+        top: 70px;
+        left: 0px;
+        right: 0px;
+        bottom: 30px;
+    }
+    .main-footer {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        height: 30px;
+        background-color: #fff;
+        > .wrapper {
+            position: relative;
+        }
+    }
 }

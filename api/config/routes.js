@@ -38,6 +38,8 @@ module.exports.routes = {
 
     'put    /api/link/:id': 'LinkController.update',
 
+    'get    /api/link/check': '',
+
     'get    /api/links': 'LinkController.readAll',
 
     'post   /api/notification': 'NotificationController.create',

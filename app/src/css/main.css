@@ -1,39 +1,79 @@
-/*
- *
- * sample
- *
- *
- */
 .notipocket-main {
+  /*---------------------------------------------------
+    LESS Elements 0.9
+  ---------------------------------------------------
+    A set of useful LESS mixins
+    More info at: http://lesselements.com
+  ---------------------------------------------------*/
   position: fixed;
   top: 0px;
   left: 0px;
   right: 0px;
   bottom: 0px;
   z-index: 999999;
-  opacity: 0.98;
 }
-.notipocket-main > .wrapper {
-  -moz-box-shadow: 0px 0px 20px #888;
-  -webkit-box-shadow: 0px 0px 20px #888;
-  box-shadow: 0px 0px 20px #888;
+.notipocket-main .bg-color {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  opacity: 0.98;
+  background-color: #ffffff;
 }
 .notipocket-main .main-header {
-  position: relative;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   height: 70px;
-  background-color: #fcfcfc;
+  -webkit-box-shadow: 0px 0px 10px #888888;
+  -moz-box-shadow: 0px 0px 10px #888888;
+  box-shadow: 0px 0px 10px #888888;
 }
-.notipocket-main .main-header > .container > div > .pull-left {
+.notipocket-main .main-header > .wrapper {
+  position: relative;
+}
+.notipocket-main .main-header > .wrapper > div > .pull-left {
   margin-top: 18px;
 }
-.notipocket-main .main-header > .container > div > .pull-right {
+.notipocket-main .main-header > .wrapper > div > .pull-right {
   margin-top: 18px;
 }
-.notipocket-main .main-header > .container > div > .pull-right > li {
+.notipocket-main .main-header > .wrapper > div > .pull-right > li {
   margin-left: 10px;
 }
+.notipocket-main .main-header .toolbar-star {
+  color: #ccc;
+  cursor: pointer;
+}
+.notipocket-main .main-header .toolbar-star.active {
+  color: #ff5555;
+}
+.notipocket-main .main-header .toolbar-tags {
+  display: none;
+}
+.notipocket-main .main-header .toolbar-saveTags {
+  display: none;
+}
+.notipocket-main .main-header .toolbar-closeList {
+  display: none;
+}
 .notipocket-main .main-content {
+  position: absolute;
+  top: 70px;
+  left: 0px;
+  right: 0px;
+  bottom: 30px;
+}
+.notipocket-main .main-footer {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: 30px;
+  background-color: #fff;
+}
+.notipocket-main .main-footer > .wrapper {
   position: relative;
-  min-height: 350px;
-  background-color: #666;
 }

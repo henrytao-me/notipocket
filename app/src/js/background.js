@@ -63,7 +63,14 @@ $(function() {
 
     chrome.browserAction.onClicked.addListener(function(tab) {
         chrome.tabs.executeScript({
-            code: '$$.main.show(' + JSON.stringify(_this.config) + ')'
+            code: '$$.main.show(' + JSON.stringify(_this.config) + ', ' + JSON.stringify(tab) + ')'
+        });
+    });
+
+    chrome.extension.onMessage.addListener(function(req, sender, res){
+        console.log('aaaaaaaaaaaaaaa', arguments);
+        res({
+            hello: 'moto'
         });
     });
 
