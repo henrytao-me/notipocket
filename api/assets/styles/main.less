@@ -1,0 +1,118 @@
+@import "../vendors/bootstrap/less/bootstrap.less";
+@import "../vendors/less-elements/elements.less";
+
+@icon-font-path:            "../vendors/bootstrap/fonts/";
+@border-radius-base:        34px;
+@border-radius-large:       45px;
+@border-radius-small:       30px;
+
+@btn-theme-color:       #fff;
+@btn-theme-bg:          #ff5555;
+@btn-theme-border:      darken(@btn-theme-bg, 1%);
+.btn-theme {
+    .button-variant(@btn-theme-color; @btn-theme-bg; @btn-theme-border);
+}
+
+@btn-gray-color:       #a7a79a;
+@btn-gray-bg:          #f2f2e7;
+@btn-gray-border:      darken(@btn-gray-bg, 0%);
+.btn-gray {
+    .button-variant(@btn-gray-color; @btn-gray-bg; @btn-gray-border);
+}
+
+@btn-dark-color:       #666666;
+@btn-dark-bg:          #e4e4cd;
+@btn-dark-border:      darken(@btn-dark-bg, 0%);
+.btn-dark {
+    .button-variant(@btn-dark-color; @btn-dark-bg; @btn-dark-border);
+}
+
+.btn, .form-control {
+    outline: 0 !important;
+}
+.form-control, .form-control:focus {
+    box-shadow: none !important;
+}
+
+.none{
+    display: none !important;
+}
+ul.block, ul.inline {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+ul.inline > li {
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+/* main */
+/////////////////////////////////////////////////////////////////////////////
+body {
+    position: relative;
+    min-height: 600px;
+}
+a {
+    text-decoration: none;
+    color: #999;
+}
+a:hover {
+    color: #ff5555;
+}
+
+.general-form {
+    margin: auto;
+    max-width: 450px;
+    text-align: center;
+    color: #666;
+    > .wrapper {
+        padding: 10px;
+    }
+    .auth-header {
+        > .title {
+            font-size: 42px;
+        }
+    }
+    .auth-content {
+        background-color: #fafafa;
+        padding: 30px;
+        margin-top: 20px;
+        .box-shadow(0px 1px 5px #888);
+        > .icon {
+            color: #ccc;
+            font-size: 72px;
+        }
+        > .title {
+            font-size: 28px;
+        }
+        > form {
+            margin-top: 20px;
+        }
+    }
+    .auth-footer {
+        margin: 20px;
+    }
+}
+.main-footer {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    padding: 10px;
+    font-size: 12px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    > ul {
+        > li {
+            padding: 0px 10px;
+        }
+    }
+}
+
+
+
+

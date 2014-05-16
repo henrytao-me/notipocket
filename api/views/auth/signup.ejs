@@ -1,0 +1,89 @@
+<div class="general-form">
+    <div class="wrapper">
+        <div class="auth-header">
+            <img src="/images/icon-128-active.png" height="60px;" >
+            <div class="title">notipocket</div>
+        </div>
+        <div class="auth-content">
+            <div class="title">Create new account</div>
+            <form role="form">
+                <div class="form-group">
+                    <!-- <label for="exampleInputEmail1">Email address</label> -->
+                    <input type="email" class="form-control input-lg" id="inputEmail" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <!-- <label for="exampleInputPassword1">Password</label> -->
+                    <input type="password" class="form-control input-lg" id="inputPassword" placeholder="Password">
+                </div>
+                <button type="button" id="btnSubmit" class="btn btn-theme btn-lg" style="width:100%;">Create new account</button>
+            </form>
+        </div>
+        <div class="auth-footer">
+            <a href="/login">Already have account? Sign in</a>
+        </div>
+    </div>    
+</div>
+<div class="main-footer">
+    <ul class="inline">
+        <li>
+            <a href="http://notipocket.com">Home page</a>
+        </li>
+        <li>
+            <a href="http://notipocket.com/privacy">Privacy & Terms</a>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('#inputPassword').bind('keypress', function(e) {
+            var code = e.keyCode || e.which;
+            if(code === 13){
+                $('#btnSubmit').trigger('click');
+            }
+        });
+
+        var login = function(email, password){
+            return $.ajax({
+                type: 'POST',
+                url: '/api/user/authenticate/email',
+                dataType: 'json',
+                data: {
+                    email: email,
+                    password: password
+                }
+            }).success(function(data){
+                $.cookie('login', 'success');
+                window.location.href = "http://notipocket.com";
+
+            }).error(function(err){
+            });
+        };
+
+        $('#btnSubmit').click(function(e){
+            var email = $('#inputEmail').val();
+            var password = $('#inputPassword').val();
+            if(!email || !password){
+                return alert('Email and Password are required.');
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/api/user/register',
+                dataType: 'json',
+                data: {
+                    email: email,
+                    password: password
+                }
+            }).success(function(data){
+                if(data.status !== 'ok'){
+                    return alert('Email already in used.');
+                }
+                // window.location.href = "/login";
+                return login(email, password);
+
+            }).error(function(err){
+                alert('Unknow error');
+            });
+        });
+    });
+</script>

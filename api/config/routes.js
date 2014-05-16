@@ -38,8 +38,6 @@ module.exports.routes = {
 
     'put    /api/link/:id': 'LinkController.update',
 
-    'get    /api/link/check': '',
-
     'get    /api/links': 'LinkController.readAll',
 
     'post   /api/notification': 'NotificationController.create',
@@ -64,8 +62,15 @@ module.exports.routes = {
 
     'post   /api/user/register': 'UserController.register',
 
-    'get    /api/user/logout': 'UserController.logout'
+    'get    /api/user/logout': 'UserController.logout',
     
+    'get    /login': {
+        view: 'auth/login'
+    },
+
+    'get    /register': {
+        view: 'auth/signup'
+    }
 };
 
 module.exports.__routes = {
