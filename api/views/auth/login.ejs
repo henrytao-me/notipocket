@@ -2,10 +2,10 @@
     <div class="wrapper">
         <div class="auth-header">
             <img src="/images/icon-128-active.png" height="60px;" >
-            <div class="title">notipocket</div>
+            <!-- <div class="title">notipocket</div> -->
         </div>
         <div class="auth-content">
-            <span class="icon glyphicon glyphicon-user"></span>
+            <div class="title">Login</div>
             <form role="form">
                 <div class="form-group">
                     <!-- <label for="exampleInputEmail1">Email address</label> -->
@@ -19,7 +19,7 @@
             </form>
         </div>
         <div class="auth-footer">
-            <a href="/register">Create an account</a>
+            <a href="/signup">Want to create new account? Signup</a>
         </div>
     </div>    
 </div>
@@ -61,7 +61,10 @@
                 if(data.status !== 'ok'){
                     return alert('Email and password are invalid.');
                 }
-                $.cookie('login', 'success');
+                alert($.cookie('domain'));
+                $.cookie('login', 'success', {
+                    domain: $.cookie('domain')
+                });
                 window.location.href = "http://notipocket.com";
 
             }).error(function(err){

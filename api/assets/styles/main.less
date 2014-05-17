@@ -53,8 +53,13 @@ ul.inline > li {
 /* main */
 /////////////////////////////////////////////////////////////////////////////
 body {
-    position: relative;
-    min-height: 600px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    min-height: 540px;
+    background-color: #f9f9f9;
 }
 a {
     text-decoration: none;
@@ -66,28 +71,26 @@ a:hover {
 
 .general-form {
     margin: auto;
-    max-width: 450px;
+    max-width: 420px;
     text-align: center;
     color: #666;
     > .wrapper {
         padding: 10px;
     }
     .auth-header {
+        margin-top: 20px;
         > .title {
-            font-size: 42px;
+            font-size: 32px;
         }
     }
     .auth-content {
-        background-color: #fafafa;
         padding: 30px;
-        margin-top: 20px;
-        .box-shadow(0px 1px 5px #888);
         > .icon {
             color: #ccc;
             font-size: 72px;
         }
         > .title {
-            font-size: 28px;
+            font-size: 32px;
         }
         > form {
             margin-top: 20px;

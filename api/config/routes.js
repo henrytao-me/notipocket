@@ -68,7 +68,7 @@ module.exports.routes = {
         view: 'auth/login'
     },
 
-    'get    /register': {
+    'get    /signup': {
         view: 'auth/signup'
     }
 };

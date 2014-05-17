@@ -61,13 +61,34 @@ $(function() {
         });
     });
 
+    $.cookie('domain', chrome.runtime.id, {
+        path: '/',
+        domain: 'localhost'
+    });
+
     chrome.browserAction.onClicked.addListener(function(tab) {
         chrome.tabs.executeScript({
             code: '$$.main.show(' + JSON.stringify(_this.config) + ', ' + JSON.stringify(tab) + ')'
         });
+
+        $.cookie('domain', chrome.runtime.id, {
+            domain: 'localhost'
+        });
+
+        var url = _this.url.get('/login');
+        var title = 'notipocket.com';
+        var width = 640;
+        var height = 550;
+
+        windowId = window.open(url, title, 'width=' + width + ',height=' + height + ',left=' + ((window.outerWidth - width) / 2) + ',top=' + ((window.outerHeight - height) / 2) + '');
+
+        var stopId = setInterval(function() {
+            console.log($.cookie('login'));
+        }, 1000);
+
     });
 
-    chrome.extension.onMessage.addListener(function(req, sender, res){
+    chrome.extension.onMessage.addListener(function(req, sender, res) {
         console.log('aaaaaaaaaaaaaaa', arguments);
         res({
             hello: 'moto'
