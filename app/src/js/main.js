@@ -4,6 +4,10 @@ $(function() {
     ////////////////////////////////////////////////
     var $$ = window.$$ = {};
 
+    // setInterval(function(){
+    //     console.log('---', $.cookie('sample'));
+    // }, 1000);
+
     ////////////////////////////////////////////////
     // toolbox
     ////////////////////////////////////////////////
@@ -50,7 +54,7 @@ $(function() {
                 });
             },
 
-            handleError: function(){
+            handleError: function() {
 
             },
 
@@ -62,7 +66,7 @@ $(function() {
             saveLink: function() {
                 return chrome.extension.sendMessage({
                     hello: 'from main'
-                }, function(response){
+                }, function(response) {
                     console.log('----------', arguments);
                 });
 
@@ -75,9 +79,9 @@ $(function() {
                         title: _this.tab.title,
                         tags: []
                     }
-                }).success(function(res){
+                }).success(function(res) {
                     console.log('aaaaaaaaa', arguments);
-                }).error(function(err){
+                }).error(function(err) {
                     console.log('eeeeeeeee', arguments);
                 });
             },
@@ -97,6 +101,16 @@ $(function() {
                     _this.$template = $template;
                     _this.bindEvents();
                 });
+
+
+                var url = _this.url.get('/login');
+                var title = 'notipocket.com';
+                var width = 640;
+                var height = 550;
+
+                windowId = window.open(url, title, 'width=' + width + ',height=' + height + ',left=' + ((window.outerWidth - width) / 2) + ',top=' + ((window.outerHeight - height) / 2) + '');
+
+                
             }
 
         };
@@ -106,3 +120,7 @@ $(function() {
     // $$.main.show();
 
 });
+
+var hello = function(){
+    alert('hello neeeeee');
+}

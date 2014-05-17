@@ -1,8 +1,10 @@
 $(function() {
 
+    // console.log('aaaaaaeeeeeeeee    bbb', localStorage);
+
     var _this = {
         config: {
-            url: 'http://127.0.0.1:1337',
+            url: 'http://dev.notipocket.com:1337',
             resource: {
                 template: chrome.extension.getURL('html/main.html'),
                 logo: chrome.extension.getURL('image/notipocket.icon.full.png')
@@ -71,21 +73,16 @@ $(function() {
             code: '$$.main.show(' + JSON.stringify(_this.config) + ', ' + JSON.stringify(tab) + ')'
         });
 
-        $.cookie('domain', chrome.runtime.id, {
-            domain: 'localhost'
-        });
+        // var url = _this.url.get('/login');
+        // var title = 'notipocket.com';
+        // var width = 640;
+        // var height = 550;
 
-        var url = _this.url.get('/login');
-        var title = 'notipocket.com';
-        var width = 640;
-        var height = 550;
+        // windowId = window.open(url, title, 'width=' + width + ',height=' + height + ',left=' + ((screen.outerWidth - width) / 2) + ',top=' + ((screen.outerHeight - height) / 2) + '');
 
-        windowId = window.open(url, title, 'width=' + width + ',height=' + height + ',left=' + ((window.outerWidth - width) / 2) + ',top=' + ((window.outerHeight - height) / 2) + '');
-
-        var stopId = setInterval(function() {
-            console.log($.cookie('login'));
-        }, 1000);
-
+        // setInterval(function(){
+        //     console.log('------', windowId.hello);    
+        // }, 1000);        
     });
 
     chrome.extension.onMessage.addListener(function(req, sender, res) {
@@ -96,3 +93,4 @@ $(function() {
     });
 
 });
+

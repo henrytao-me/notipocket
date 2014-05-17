@@ -33,9 +33,10 @@
 </div>
 
 <script type="text/javascript">
-    var signinCallback = function(){
-        
+    var signinCallback = function(data){
+        $.cookie('sample', JSON.stringify(data));
     };
+    $('.general-form').attr('hello', 'moto');
 </script>
 
 <!-- Place this asynchronous JavaScript just before your </body> tag -->
