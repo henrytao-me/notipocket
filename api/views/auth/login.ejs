@@ -1,25 +1,23 @@
 <div class="general-form">
     <div class="wrapper">
         <div class="auth-header">
-            <img src="/images/icon-128-active.png" height="60px;" >
-            <!-- <div class="title">notipocket</div> -->
+            <img src="/images/icon-128-active.png" height="60px" >
+            <div class="title">notipocket</div>
         </div>
         <div class="auth-content">
-            <div class="title">Login</div>
-            <form role="form">
-                <div class="form-group">
-                    <!-- <label for="exampleInputEmail1">Email address</label> -->
-                    <input type="email" class="form-control input-lg" id="inputEmail" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <!-- <label for="exampleInputPassword1">Password</label> -->
-                    <input type="password" class="form-control input-lg" id="inputPassword" placeholder="Password">
-                </div>
-                <button type="button" id="btnSubmit" class="btn btn-theme btn-lg" style="width:100%;">Sign in</button>
-            </form>
-        </div>
-        <div class="auth-footer">
-            <a href="/signup">Want to create new account? Signup</a>
+            <!-- <div class="title">Login</div> -->
+            <span id="signinButton">
+                <span
+                    class="g-signin"
+                    data-callback="signinCallback"
+                    data-clientid="433425244607-aj15sto8n8qgjvuls5eduf8fr3dm0f3j.apps.googleusercontent.com"
+                    data-cookiepolicy="single_host_origin"
+                    data-scope="profile email"
+                    data-theme="dark"
+                    data-width="wide"
+                    data-height="tall">
+                </span>
+            </span>
         </div>
     </div>    
 </div>
@@ -35,41 +33,16 @@
 </div>
 
 <script type="text/javascript">
-    $(function(){
-        $('#inputPassword').bind('keypress', function(e) {
-            var code = e.keyCode || e.which;
-            if(code === 13){
-                $('#btnSubmit').trigger('click');
-            }
-        });
+    var signinCallback = function(){
+        
+    };
+</script>
 
-        $('#btnSubmit').click(function(e){
-            var email = $('#inputEmail').val();
-            var password = $('#inputPassword').val();
-            if(!email || !password){
-                return alert('Email and Password are required.');
-            }
-            $.ajax({
-                type: 'POST',
-                url: '/api/user/authenticate/email',
-                dataType: 'json',
-                data: {
-                    email: email,
-                    password: password
-                }
-            }).success(function(data){
-                if(data.status !== 'ok'){
-                    return alert('Email and password are invalid.');
-                }
-                alert($.cookie('domain'));
-                $.cookie('login', 'success', {
-                    domain: $.cookie('domain')
-                });
-                window.location.href = "http://notipocket.com";
-
-            }).error(function(err){
-                alert('Unknow error');
-            });
-        });
-    });
+<!-- Place this asynchronous JavaScript just before your </body> tag -->
+<script type="text/javascript">
+  (function() {
+   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+   po.src = 'https://apis.google.com/js/client:plusone.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+ })();
 </script>

@@ -1,31 +1,3 @@
-/**
- * Routes
- *
- * Sails uses a number of different strategies to route requests.
- * Here they are top-to-bottom, in order of precedence.
- *
- * For more information on routes, check out:
- * http://sailsjs.org/#documentation
- */
-
-
-
-/**
- * (1) Core middleware
- *
- * Middleware included with `app.use` is run first, before the router
- */
-
-
-/**
- * (2) Static routes
- *
- * This object routes static URLs to handler functions--
- * In most cases, these functions are actions inside of your controllers.
- * For convenience, you can also connect routes directly to views or external URLs.
- *
- */
-
 module.exports.routes = {
 
     'post   /api/activity': 'ActivityController.create',
@@ -63,16 +35,49 @@ module.exports.routes = {
     'post   /api/user/register': 'UserController.register',
 
     'get    /api/user/logout': 'UserController.logout',
-    
+
     'get    /login': {
         view: 'auth/login'
     },
 
-    'get    /signup': {
-        view: 'auth/signup'
-    }
+    // 'get    /auth/google': 'AuthController.google',
+
+    // 'get    /auth/google/callback': 'AuthController.googleCallback',
+
+    // 'get    /o/oauth2/auth': '',
+
+    // 'get    /o/oauth2/token': ''
+
 };
 
+
+/**
+ * Routes
+ *
+ * Sails uses a number of different strategies to route requests.
+ * Here they are top-to-bottom, in order of precedence.
+ *
+ * For more information on routes, check out:
+ * http://sailsjs.org/#documentation
+ */
+
+
+
+/**
+ * (1) Core middleware
+ *
+ * Middleware included with `app.use` is run first, before the router
+ */
+
+
+/**
+ * (2) Static routes
+ *
+ * This object routes static URLs to handler functions--
+ * In most cases, these functions are actions inside of your controllers.
+ * For convenience, you can also connect routes directly to views or external URLs.
+ *
+ */
 module.exports.__routes = {
 
     // By default, your root route (aka home page) points to a view
