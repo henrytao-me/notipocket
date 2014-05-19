@@ -44,7 +44,9 @@ var _this = {
                 }).then(function(token) {
                     return res.json({
                         status: 'ok',
-                        data: token
+                        data: {
+                            token: token.token
+                        }
                     });
                 }).
                 catch (function(err) {

@@ -57,8 +57,8 @@ var config = {
                 'id_token': data['id_token']
             },
             dataType: 'json'
-        }).success(function(data){
-            $.cookie('access_token', data.token);
+        }).success(function(res){
+            $.cookie('access_token', res.data.token);
         }).error(function(err){
             console.log('----------- eeeeee', err);
         });
@@ -66,7 +66,7 @@ var config = {
 
     $(function(){
         $('#btnLogout').click(function(e){
-            
+
         });
     });
 

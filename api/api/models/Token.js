@@ -32,9 +32,6 @@ var _this = {
         toJSON: function() {
             var obj = this.toObject();
             // Remove the password object value
-            delete obj.userId;
-            delete obj.clientId;
-            delete obj.scope;
             delete obj.isActive;
             // return the new object without password
             return obj;
