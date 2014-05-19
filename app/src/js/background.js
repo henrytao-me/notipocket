@@ -1,7 +1,5 @@
 $(function() {
 
-    // console.log('aaaaaaeeeeeeeee    bbb', localStorage);
-
     var _this = {
         config: {
             url: 'http://dev.notipocket.com:1337',

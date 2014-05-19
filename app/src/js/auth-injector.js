@@ -1,3 +1,3 @@
 setInterval(function() {
-    console.log($('.general-form').attr('hello'));
+    // console.log('------- injector', $.cookie('sample'));
 }, 1000);

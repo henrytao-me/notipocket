@@ -1,3 +1,15 @@
+<script type="text/javascript">
+var config = {
+    env: {
+        host: 'http://dev.notipocket.com',
+        port: 1337
+    },
+    getUrl: function(url){
+        return config.env.host + (config.env.port === 80 ? '' : ':' + config.env.port) + url;
+    }
+}
+</script>
+
 <div class="general-form">
     <div class="wrapper">
         <div class="auth-header">
@@ -5,7 +17,6 @@
             <div class="title">notipocket</div>
         </div>
         <div class="auth-content">
-            <!-- <div class="title">Login</div> -->
             <span id="signinButton">
                 <span
                     class="g-signin"
@@ -13,11 +24,13 @@
                     data-clientid="433425244607-aj15sto8n8qgjvuls5eduf8fr3dm0f3j.apps.googleusercontent.com"
                     data-cookiepolicy="single_host_origin"
                     data-scope="profile email"
+                    data-approvalprompt="force"
                     data-theme="dark"
                     data-width="wide"
                     data-height="tall">
                 </span>
             </span>
+            <button id="btnLogout" class="bt btn-theme">Logout</button>
         </div>
     </div>    
 </div>
@@ -34,12 +47,30 @@
 
 <script type="text/javascript">
     var signinCallback = function(data){
-        $.cookie('sample', JSON.stringify(data));
+        if(data.error){
+            return false;
+        };
+        $.ajax({
+            type: 'POST',
+            url: config.getUrl('/auth/google'),
+            data: {
+                'id_token': data['id_token']
+            },
+            dataType: 'json'
+        }).success(function(data){
+            $.cookie('access_token', data.token);
+        }).error(function(err){
+            console.log('----------- eeeeee', err);
+        });
     };
-    $('.general-form').attr('hello', 'moto');
-</script>
 
-<!-- Place this asynchronous JavaScript just before your </body> tag -->
+    $(function(){
+        $('#btnLogout').click(function(e){
+            
+        });
+    });
+
+</script>
 <script type="text/javascript">
   (function() {
    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;

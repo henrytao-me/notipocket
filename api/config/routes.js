@@ -40,9 +40,7 @@ module.exports.routes = {
         view: 'auth/login'
     },
 
-    // 'get    /auth/google': 'AuthController.google',
-
-    // 'get    /auth/google/callback': 'AuthController.googleCallback',
+    'post   /auth/google': 'AuthController.google',
 
     // 'get    /o/oauth2/auth': '',
 

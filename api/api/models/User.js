@@ -46,7 +46,12 @@ var _this = {
 
     _authenticateEmail: function(email, password) {
         var _this = this;
-        return q().then(function() {
+        return q().then(function(){
+            if(!email || !password){
+                throw new Error('Invalid email and password');
+            }
+
+        }).then(function() {
             return _this.findOne({
                 email: email
             });
@@ -61,6 +66,20 @@ var _this = {
             // compare password
             if (!bcrypt.compareSync(password, data.password)) {
                 throw new Error('Invalid email and password');
+            }
+            return data;
+        });
+    },
+
+    _findByEmail: function(email){
+        var _this = this;
+        return q().then(function(){
+            return _this.findOne({
+                email: email
+            });
+        }).then(function(data){
+            if(!data){
+                throw new Error('Email not found');
             }
             return data;
         });
