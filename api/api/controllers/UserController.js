@@ -31,10 +31,35 @@ var _this = {
     },
 
     logout: function(req, res, next) {
+        var userId = (req.user || {}).id;
+
+        // logout session
         req.logout();
-        Token._clear(req.token.token).then(function() {
+
+        // start clear token
+        return q().then(function() {
+            if (!userId) {
+                throw new Error('User not found');
+            }
+            return userId;
+
+        }).then(function(userId) {
+            return Token._clearByUserId(userId);
+        }).
+        catch (function(err) {
+
+        }).then(function(){
             return res.json({
                 status: 'ok'
+            });
+        });
+    },
+
+    read: function(req, res, next) {
+        return User._read(req.token.userId).then(function(data) {
+            return res.json({
+                status: 'ok',
+                data: data
             });
         }).
         catch (function(err) {
@@ -45,11 +70,13 @@ var _this = {
         });
     },
 
-    read: function(req, res, next) {
-        return User._read(req.token.userId).then(function(data) {
+    refreshToken: function(req, res, next) {
+        return Token._create(req.user.id).then(function(data) {
             return res.json({
                 status: 'ok',
-                data: data
+                data: {
+                    token: data.token
+                }
             });
         }).
         catch (function(err) {

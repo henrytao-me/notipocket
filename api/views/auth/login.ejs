@@ -1,11 +1,15 @@
 <script type="text/javascript">
+
+
+
 var config = {
     env: {
-        host: 'http://dev.notipocket.com',
+        protocol: window.location.protocol + '//',
+        host: window.location.hostname,
         port: 1337
     },
     getUrl: function(url){
-        return config.env.host + (config.env.port === 80 ? '' : ':' + config.env.port) + url;
+        return config.env.protocol + config.env.host + (config.env.port === 80 ? '' : ':' + config.env.port) + url;
     }
 }
 </script>
@@ -58,15 +62,18 @@ var config = {
             },
             dataType: 'json'
         }).success(function(res){
-            $.cookie('access_token', res.data.token);
+            $.cookie('access_token', res.data.token, {
+                domain: '.notipocket.com',
+                expires: 3 //day
+            });
         }).error(function(err){
-            console.log('----------- eeeeee', err);
+            alert('Authenticate error: ' + err.message);
         });
     };
 
     $(function(){
         $('#btnLogout').click(function(e){
-
+            window.location.href = config.getUrl('/api/user/logout');
         });
     });
 

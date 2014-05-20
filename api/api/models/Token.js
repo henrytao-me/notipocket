@@ -23,6 +23,11 @@ var _this = {
             type: 'string'
         },
 
+        type: {
+            type: 'string',
+            defaultsTo: 'web'
+        },
+
         isActive: {
             type: 'boolean',
             defaultsTo: true
@@ -58,6 +63,23 @@ var _this = {
             token: token
         }, {
             isActive: false
+        });
+    },
+
+    _clearByUserId: function(userId, type){
+        type = type || 'web';
+        var _this = this;
+        q().then(function(){
+            if(!userId){
+                throw new Error('User not found');
+            }
+        }).then(function(){
+            return _this.update({
+                userId: userId,
+                type: type 
+            }, {
+                isActive: false
+            });
         });
     },
 
