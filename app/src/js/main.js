@@ -18,10 +18,8 @@ $(function() {
             tab: null,
             $template: null,
 
-            url: {
-                get: function(url) {
-                    return _this.config.url + url;
-                }
+            getUrl: function(url) {
+                return _this.config.env.protocol + _this.config.env.host + (_this.config.env.port === 80 ? '' : ':' + _this.config.env.port) + url;
             },
 
             init: function() {
@@ -72,7 +70,7 @@ $(function() {
 
                 return $.ajax({
                     type: 'POST',
-                    url: _this.url.get('/api/link'),
+                    url: _this.getUrl('/api/link'),
                     dataType: 'json',
                     data: {
                         url: _this.tab.url,
@@ -92,24 +90,23 @@ $(function() {
                 }
 
                 _this.config = config;
-                _this.tab = tab;
-                _this.createTemplate().then(function($template) {
-                    // push template to the view
-                    $('body').append($template);
+                
+                // _this.tab = tab;
+                // _this.createTemplate().then(function($template) {
+                //     // push template to the view
+                //     $('body').append($template);
 
-                    // store template & init event
-                    _this.$template = $template;
-                    _this.bindEvents();
-                });
+                //     // store template & init event
+                //     _this.$template = $template;
+                //     _this.bindEvents();
+                // });
 
-
-                var url = _this.url.get('/login');
+                var url = _this.getUrl('/login');
                 var title = 'notipocket.com';
                 var width = 640;
                 var height = 550;
 
                 windowId = window.open(url, title, 'width=' + width + ',height=' + height + ',left=' + ((window.outerWidth - width) / 2) + ',top=' + ((window.outerHeight - height) / 2) + '');
-
                 
             }
 

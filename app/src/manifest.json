@@ -20,7 +20,7 @@
         "matches": ["*://*/*"]
     }, {
         "js": ["js/auth-injector.js"],
-        "matches": ["http://dev.notipocket.com:1337/login"]
+        "matches": ["http://*.notipocket.com:*/login"]
     }],
     "icons": {
         "128": "image/icon-128.png",
