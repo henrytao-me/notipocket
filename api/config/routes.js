@@ -10,6 +10,8 @@ module.exports.routes = {
 
     'put    /api/link/:id': 'LinkController.update',
 
+    'post   /api/link/find-by-url': 'LinkController.findByUrl',
+
     'get    /api/links': 'LinkController.readAll',
 
     'post   /api/notification': 'NotificationController.create',

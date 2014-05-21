@@ -34,7 +34,6 @@ var config = {
                     data-height="tall">
                 </span>
             </span>
-            <button id="btnLogout" class="bt btn-theme">Logout</button>
         </div>
     </div>    
 </div>
@@ -70,12 +69,6 @@ var config = {
             alert('Authenticate error: ' + err.message);
         });
     };
-
-    $(function(){
-        $('#btnLogout').click(function(e){
-            window.location.href = config.getUrl('/api/user/logout');
-        });
-    });
 
 </script>
 <script type="text/javascript">

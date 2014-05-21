@@ -7,7 +7,8 @@ var _this = {
 
         url: {
             type: 'string',
-            required: true
+            required: true,
+            unique: true
         },
 
         title: {
@@ -66,6 +67,24 @@ var _this = {
                 isActive: false
             }).then(function(data) {
                 data = data[0];
+                if (!data) {
+                    throw new Error('Not found');
+                }
+                return data;
+            });
+        });
+    },
+
+    _findByUrl: function(userId, url){
+        var _this = this;
+        return q().then(function(){
+            if(!url){
+                throw new Error('Missing url');
+            }
+            return _this.findOne({
+                userId: userId, 
+                url: url
+            }).then(function(data) {
                 if (!data) {
                     throw new Error('Not found');
                 }

@@ -29,6 +29,21 @@ var _this = {
         });
     },
 
+    findByUrl: function(req, res, next) {
+        return Link._findByUrl(req.token.userId, req.body.url).then(function(data) {
+            return res.json({
+                status: 'ok',
+                data: data
+            });
+        }).
+        catch (function(err) {
+            return res.json({
+                status: 'error',
+                message: err.message
+            });
+        });
+    },
+
     read: function(req, res, next) {
         return Link._read(req.token.userId, req.params.id).then(function(data) {
             return res.json({

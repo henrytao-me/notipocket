@@ -1,79 +1,165 @@
 $(function() {
 
-    var _this = {
-        config: {
+    ////////////////////////////////////////////
+    // token
+    ////////////////////////////////////////////
+    var Token = (function() {
+        var _this = {
+
+            init: function() {
+                return _this;
+            },
+
+            get: function() {
+                var token = localStorage['access_token'] || 'blank';
+                _this.set(token);
+                return token;
+            },
+
+            set: function(token) {
+                localStorage['access_token'] = token;
+            }
+        };
+        return _this.init();
+    }());
+
+    ////////////////////////////////////////////
+    // service manager
+    ////////////////////////////////////////////
+
+    var ServiceManager = (function() {
+        var _this = {
             env: {
                 protocol: 'http://',
                 host: 'dev.notipocket.com',
                 port: 1337
             },
-            resource: {
-                template: chrome.extension.getURL('html/main.html'),
-                logo: chrome.extension.getURL('image/notipocket.icon.full.png')
-            }
-        },
-        getUrl: function(url) {
-            return _this.config.env.protocol + _this.config.env.host + (_this.config.env.port === 80 ? '' : ':' + _this.config.env.port) + url;
-        }
-    };
 
-    chrome.tabs.onUpdated.addListener(function(tabId, params, tabInfo) {
-        $.ajax({
-            type: 'PUT',
-            url: _this.getUrl('/api/notification/check'),
-            dataType: 'json',
-            data: {
-                params: 'p' + Base64.encode(JSON.stringify({
-                    type: 'update',
-                    params: params,
-                    tabId: tabId,
-                    tabInfo: tabInfo
-                }))
-            }
-        });
-    });
+            init: function() {
+                return _this;
+            },
 
-    chrome.tabs.onRemoved.addListener(function(tabId, params) {
-        $.ajax({
-            type: 'PUT',
-            url: _this.getUrl('/api/notification/check'),
-            dataType: 'json',
-            data: {
-                params: 'p' + Base64.encode(JSON.stringify({
-                    type: 'remove',
-                    params: params,
-                    tabId: tabId
-                }))
-            }
-        });
-    });
+            getUrl: function(url) {
+                return _this.env.protocol + _this.env.host + (_this.env.port === 80 ? '' : ':' + _this.env.port) + url;
+            },
 
-    chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
-        $.ajax({
-            type: 'PUT',
-            url: _this.getUrl('/api/notification/check'),
-            dataType: 'json',
-            data: {
-                params: 'p' + Base64.encode(JSON.stringify({
-                    type: 'selection',
-                    params: params,
-                    tabId: tabId
-                }))
+            request: function(type, url, data, dataType, headers) {
+                var deferred = Q.defer();
+                $.ajax({
+                    headers: $.extend({}, headers || {
+                        'Authorization': 'BEARER ' + Token.get()
+                    }),
+                    type: type,
+                    url: _this.getUrl(url),
+                    data: data || {},
+                    dataType: dataType || 'json'
+
+                }).done(function(res, status, xhr) {
+                    if (res.status !== 'ok') {
+                        return deferred.reject($.extend({}, res, {
+                            code: xhr.status
+                        }));
+                    }
+                    return deferred.resolve($.extend({}, res, {
+                        code: xhr.status
+                    }));
+
+                }).fail(function(xhr) {
+                    return deferred.reject({
+                        status: 'error',
+                        code: xhr.status,
+                        message: xhr.statusText
+                    });
+                });
+                return deferred.promise.
+                catch (function(err) {
+                    // refresh token
+                    if (err.code === 401) {
+                        
+                    }
+                    return err;
+                });
+            },
+
+            ////////////////////////////////////
+            // extend
+            ////////////////////////////////////
+            getLink: function(url) {
+                return _this.request('post', '/api/link/find-by-url', {
+                    url: url
+                }).then(function(res) {
+                    console.log('--------- then', res);
+                });
             }
-        });
-    });
+        };
+        return _this.init();
+    }());
+
+    ////////////////////////////////////////////
+    // event
+    ////////////////////////////////////////////
 
     chrome.browserAction.onClicked.addListener(function(tab) {
-        chrome.tabs.executeScript({
-            code: '$$.main.show(' + JSON.stringify(_this.config) + ', ' + JSON.stringify(tab) + ')'
+        chrome.tabs.sendMessage(tab.id, {
+            code: 'show'
+        }, function(res) {
+            ServiceManager.getLink(tab.url);
         });
     });
 
-    chrome.extension.onMessage.addListener(function(req, sender, res) {
-        console.log('aaaaaaaaaaaaaaa', arguments);
-        res({
-            hello: 'moto'
-        });
-    });
+    // chrome.extension.onMessage.addListener(function(req, sender, res) {
+    //     console.log('aaaaaaaaaaaaaaa', arguments);
+    //     res({
+    //         hello: 'moto'
+    //     });
+    // });
+
+    // chrome.tabs.onUpdated.addListener(function(tabId, params, tabInfo) {
+    //     $.ajax({
+    //         type: 'PUT',
+    //         url: _this.getUrl('/api/notification/check'),
+    //         dataType: 'json',
+    //         data: {
+    //             params: 'p' + Base64.encode(JSON.stringify({
+    //                 type: 'update',
+    //                 params: params,
+    //                 tabId: tabId,
+    //                 tabInfo: tabInfo
+    //             }))
+    //         }
+    //     });
+    // });
+
+    // chrome.tabs.onRemoved.addListener(function(tabId, params) {
+    //     $.ajax({
+    //         type: 'PUT',
+    //         url: _this.getUrl('/api/notification/check'),
+    //         dataType: 'json',
+    //         data: {
+    //             params: 'p' + Base64.encode(JSON.stringify({
+    //                 type: 'remove',
+    //                 params: params,
+    //                 tabId: tabId
+    //             }))
+    //         }
+    //     });
+    // });
+
+    // chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
+    //     $.ajax({
+    //         type: 'PUT',
+    //         url: _this.getUrl('/api/notification/check'),
+    //         dataType: 'json',
+    //         data: {
+    //             params: 'p' + Base64.encode(JSON.stringify({
+    //                 type: 'selection',
+    //                 params: params,
+    //                 tabId: tabId
+    //             }))
+    //         }
+    //     });
+    // });
+
+
 
 });
