@@ -16,8 +16,11 @@
     },
     "content_scripts": [{
         "css": ["css/bootstrap.css", "css/main.css"],
-        "js": ["js/lib/jquery.js", "js/lib/underscore.js", "js/lib/jquery-cookie.js", "js/main.js", "js/auth-injector.js"],
+        "js": ["js/lib/jquery.js", "js/lib/jquery-cookie.js", "js/lib/underscore.js", "js/main.js"],
         "matches": ["*://*/*"]
+    }, {
+        "js": ["js/auth-injector.js"],
+        "matches": ["http://*.notipocket.com:*/login"]
     }],
     "icons": {
         "128": "image/icon-128.png",
