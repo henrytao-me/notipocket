@@ -35,6 +35,8 @@ $(function() {
                 port: 1337
             },
 
+            queues: [],
+
             init: function() {
                 return _this;
             },
@@ -43,10 +45,47 @@ $(function() {
                 return _this.env.protocol + _this.env.host + (_this.env.port === 80 ? '' : ':' + _this.env.port) + url;
             },
 
+            refresToken: function(args) {
+                var deferred = Q.defer();
+                _this.queues.push({
+                    retry: function() {
+                        return _this.request.apply(_this, args).then(function(res) {
+                            deferred.resolve(res);
+                        }).
+                        catch (function(err) {
+                            deferred.reject(err);
+                        });
+                    },
+                    cancel: function() {
+                        return deferred.reject({
+                            status: 'cancel'
+                        });
+                    }
+                });
+                // retry queue
+                _this.retryQueue();
+                // promise
+                return deferred.promise;
+            },
+
+            retryQueue: function() {
+                if (_this.queues.length === 0) {
+                    return false;
+                }
+                chrome.tabs.getCurrent(function(tab) {
+                    chrome.tabs.sendMessage(tab.id, {
+                        code: 'auth'
+                    }, function(res) {
+                        
+                    });
+                });
+            },
+
             request: function(type, url, data, dataType, headers) {
+                var args = arguments;
                 var deferred = Q.defer();
                 $.ajax({
-                    headers: $.extend({}, headers || {
+                    headers: _.extend({}, headers || {
                         'Authorization': 'BEARER ' + Token.get()
                     }),
                     type: type,
@@ -56,11 +95,11 @@ $(function() {
 
                 }).done(function(res, status, xhr) {
                     if (res.status !== 'ok') {
-                        return deferred.reject($.extend({}, res, {
+                        return deferred.reject(_.extend({}, res, {
                             code: xhr.status
                         }));
                     }
-                    return deferred.resolve($.extend({}, res, {
+                    return deferred.resolve(_.extend({}, res, {
                         code: xhr.status
                     }));
 
@@ -75,9 +114,9 @@ $(function() {
                 catch (function(err) {
                     // refresh token
                     if (err.code === 401) {
-                        
+                        return _this.refresToken(args);
                     }
-                    return err;
+                    throw new Error(err.message);
                 });
             },
 
