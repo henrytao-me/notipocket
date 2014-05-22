@@ -13,9 +13,34 @@ var Main = (function() {
         $template: null,
         $notification: {
             id: null,
-            $remove: null,
+            $removed: null,
             $saved: null,
-            $wait: null
+            $wait: null,
+            showRemoved: function() {
+                _this.$notification.$removed.show();
+                _this.$notification.$saved.hide();
+                _this.$notification.$wait.hide();
+                clearTimeout(_this.$notification.id);
+                _this.$notification.id = setTimeout(function() {
+                    _this.$notification.$removed.hide();
+                }, 3000);
+            },
+            showSaved: function() {
+                _this.$notification.$removed.hide();
+                _this.$notification.$saved.show();
+                _this.$notification.$wait.hide();
+                clearTimeout(_this.$notification.id);
+                _this.$notification.id = setTimeout(function() {
+                    _this.$notification.$saved.hide();
+                }, 3000);
+            },
+            showWait: function() {
+                _this.$notification.$removed.hide();
+                _this.$notification.$saved.hide();
+                _this.$notification.$wait.show();
+                clearTimeout(_this.$notification.id);
+                _this.$notification.id = null;
+            }
         },
         $toolbar: {
             $star: null,
@@ -35,10 +60,21 @@ var Main = (function() {
                 _this.saveLink();
             });
             _this.$toolbar.$addTags.click(function() {
-
+                _this.$toolbar.$tags.show();
+                _this.$toolbar.$addTags.hide();
+                _this.$toolbar.$saveTags.show();
+            });
+            _this.$toolbar.$tags.bind('keypress', function(e) {
+                var code = e.keyCode || e.which;
+                if (code == 13) { //Enter keycode
+                    _this.$toolbar.$saveTags.trigger('click');
+                }
             });
             _this.$toolbar.$saveTags.click(function() {
-
+                _this.$toolbar.$tags.hide();
+                _this.$toolbar.$addTags.show();
+                _this.$toolbar.$saveTags.hide();
+                _this.saveTags();
             });
             _this.$toolbar.$viewList.click(function() {
 
@@ -62,11 +98,7 @@ var Main = (function() {
         },
 
         saveLink: function() {
-            _this.$notification.$removed.hide();
-            _this.$notification.$saved.hide();
-            _this.$notification.$wait.show();
-            clearTimeout(_this.$notification.id);
-            _this.$notification.id = null;
+            _this.$notification.showWait();
 
             var isActive = !_this.$toolbar.$star.hasClass('active');
             if (isActive === true) {
@@ -79,6 +111,18 @@ var Main = (function() {
                 code: 'saveLink',
                 data: {
                     isActive: isActive,
+                    url: window.location.href,
+                    title: document.title
+                }
+            });
+        },
+
+        saveTags: function() {
+            _this.$notification.showWait();
+            return chrome.extension.sendMessage({
+                code: 'saveLink',
+                data: {
+                    isActive: true,
                     url: window.location.href,
                     title: document.title,
                     tags: _this.$toolbar.$tags.val()
@@ -148,6 +192,9 @@ chrome.runtime.onMessage.addListener(function(req, sender, res) {
         if (!req.data) {
             Main.$toolbar.$star.removeClass('active');
             Main.$toolbar.$tags.val('');
+
+            // default save link
+            Main.saveLink();
         } else {
             Main.$toolbar.$star.addClass('active');
             Main.$toolbar.$tags.val(req.data.tags.join(', '));
@@ -156,16 +203,14 @@ chrome.runtime.onMessage.addListener(function(req, sender, res) {
 
     // saveLink
     if (req.code === 'saveLink') {
-        Main.$notification.$wait.hide();
-        if(req.data){
-            Main.$notification.$saved.show();    
+        if (!req.data) {
+            Main.$toolbar.$star.removeClass('active');
+            Main.$toolbar.$tags.val('');
+            Main.$notification.showRemoved();
         } else {
-            Main.$notification.$removed.show();
+            Main.$toolbar.$star.addClass('active');
+            Main.$toolbar.$tags.val(req.data.tags.join(', '));
+            Main.$notification.showSaved();
         }
-        Main.$notification.id = setTimeout(function() {
-            Main.$notification.$removed.hide();
-            Main.$notification.$saved.hide();
-            Main.$notification.id = null;
-        }, 3000);
     }
 });

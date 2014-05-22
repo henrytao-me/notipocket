@@ -70,15 +70,6 @@
 .notipocket-main .main-header .toolbar-star.active {
   color: #FCA919;
 }
-.notipocket-main .main-header .toolbar-tags {
-  display: none;
-}
-.notipocket-main .main-header .toolbar-saveTags {
-  display: none;
-}
-.notipocket-main .main-header .toolbar-closeList {
-  display: none;
-}
 .notipocket-main .main-content {
   position: absolute;
   top: 70px;
