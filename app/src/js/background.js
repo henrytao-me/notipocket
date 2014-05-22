@@ -145,7 +145,7 @@ var ServiceManager = (function() {
             });
         },
 
-        removeLink: function(url){
+        removeLink: function(url) {
             return _this.request('post', '/api/link/delete-by-url', {
                 url: url
             });
@@ -201,7 +201,7 @@ chrome.runtime.onMessage.addListener(function(req, sender, res) {
     // saveLink
     if (req.code === 'saveLink') {
         var promise = null;
-        if(req.data.isActive === true){
+        if (req.data.isActive === true) {
             promise = ServiceManager.saveLink(req.data.url, req.data.title, req.data.tags);
         } else {
             promise = ServiceManager.removeLink(req.data.url);
@@ -216,6 +216,18 @@ chrome.runtime.onMessage.addListener(function(req, sender, res) {
                 code: 'saveLink',
                 data: data
             });
+            return data;
+
+        }).then(function(data) {
+            if (!data) { // remove
+                chrome.browserAction.setIcon({
+                    path: '/image/icon-19.png'
+                });
+            } else {
+                chrome.browserAction.setIcon({
+                    path: '/image/icon-19-active.png'
+                });
+            }
         });
     }
 });
@@ -252,17 +264,32 @@ chrome.runtime.onMessage.addListener(function(req, sender, res) {
 //     });
 // });
 
-// chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
-//     $.ajax({
-//         type: 'PUT',
-//         url: _this.getUrl('/api/notification/check'),
-//         dataType: 'json',
-//         data: {
-//             params: 'p' + Base64.encode(JSON.stringify({
-//                 type: 'selection',
-//                 params: params,
-//                 tabId: tabId
-//             }))
-//         }
-//     });
-// });
+chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
+    chrome.tabs.get(tabId, function(tab) {
+        ServiceManager.getLink(tab.url).then(function(data) {
+            chrome.browserAction.setIcon({
+                path: '/image/icon-19-active.png'
+            });
+        }).
+        catch (function(err) {
+            chrome.browserAction.setIcon({
+                path: '/image/icon-19.png'
+            });
+        });
+    });
+
+
+
+    // $.ajax({
+    //     type: 'PUT',
+    //     url: _this.getUrl('/api/notification/check'),
+    //     dataType: 'json',
+    //     data: {
+    //         params: 'p' + Base64.encode(JSON.stringify({
+    //             type: 'selection',
+    //             params: params,
+    //             tabId: tabId
+    //         }))
+    //     }
+    // });
+});
