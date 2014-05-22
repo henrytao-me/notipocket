@@ -89,7 +89,9 @@ var ServiceManager = (function() {
                 if (tab) {
                     chrome.tabs.sendMessage(tab.id, {
                         code: 'auth',
-                        url: _this.getUrl('/login')
+                        data: {
+                            url: _this.getUrl('/login')
+                        }
                     });
                 }
             });
@@ -140,10 +142,6 @@ var ServiceManager = (function() {
         getLink: function(url) {
             return _this.request('post', '/api/link/find-by-url', {
                 url: url
-            }).then(function(res) {
-                console.log('--------- then', res);
-            }).catch(function(err){
-                console.log('eeeeeeeeeeeeeee', err);
             });
         }
     };
@@ -157,16 +155,31 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.sendMessage(tab.id, {
         code: 'show'
     }, function(res) {
-        ServiceManager.getLink(tab.url);
+        if (res.code === 'show') {
+            ServiceManager.getLink(tab.url).then(function(res) {
+                chrome.tabs.sendMessage(tab.id, {
+                    code: 'getLink',
+                    data: res.data
+                });
+            }).
+            catch (function(err) {
+                chrome.tabs.sendMessage(tab.id, {
+                    code: 'getLink',
+                    data: null
+                });
+            });
+        }
     });
 });
 
 chrome.extension.onMessage.addListener(function(req, sender, res) {
+    // token
     if (req.code === 'token') {
-        Token.set(req['access_token']);
+        Token.set(req.data['access_token']);
         ServiceManager.retryQueue();
     }
 });
+
 
 // chrome.tabs.onUpdated.addListener(function(tabId, params, tabInfo) {
 //     $.ajax({

@@ -12,7 +12,9 @@ var Auth = (function() {
                     window.close();
                     return chrome.extension.sendMessage({
                         code: 'token',
-                        'access_token': $.cookie('access_token')
+                        data: {
+                            'access_token': $.cookie('access_token')    
+                        }                        
                     });
                 }
             }, 200);

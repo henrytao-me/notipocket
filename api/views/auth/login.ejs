@@ -24,7 +24,7 @@ var config = {
             <span id="signinButton">
                 <span
                     class="g-signin"
-                    data-callback="signinCallback"
+                    data-callback="googleSigninCallback"
                     data-clientid="433425244607-aj15sto8n8qgjvuls5eduf8fr3dm0f3j.apps.googleusercontent.com"
                     data-cookiepolicy="single_host_origin"
                     data-scope="profile email"
@@ -34,6 +34,12 @@ var config = {
                     data-height="tall">
                 </span>
             </span>
+        </div>
+        <div class="auth-loader" style="display:none;">
+            <img src="/images/wait_icon.gif" width="36px" >
+        </div>
+        <div class="auth-success" style="display:none;font-size:36px;margin-top:60px;">
+            <div>Welcome!</div>
         </div>
     </div>    
 </div>
@@ -49,10 +55,14 @@ var config = {
 </div>
 
 <script type="text/javascript">
-    var signinCallback = function(data){
+    var googleSigninCallback = function(data){
         if(data.error){
             return false;
         };
+        $('.general-form .auth-content').hide();
+        $('.general-form .auth-loader').show();
+        $('.general-form .auth-success').hide();
+
         $.ajax({
             type: 'POST',
             url: config.getUrl('/auth/google'),
@@ -65,6 +75,9 @@ var config = {
                 domain: '.notipocket.com',
                 expires: 3 //day
             });
+            $('.general-form .auth-loader').hide();
+            $('.general-form .auth-success').show();
+
         }).error(function(err){
             alert('Authenticate error: ' + err.message);
         });
