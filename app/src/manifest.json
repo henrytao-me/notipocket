@@ -1,6 +1,6 @@
 {
-    "name": "Watchlist",
-    "version": "0.9",
+    "name": "Notipocket",
+    "version": "1.0",
     "description": "Watch all the web you care about.",
     "manifest_version": 2,
     "update_url": "https://clients2.google.com/service/update2/crx",
