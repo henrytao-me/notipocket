@@ -10,7 +10,11 @@ module.exports.routes = {
 
     'put    /api/link/:id': 'LinkController.update',
 
+    'post   /api/link/delete-by-url': 'LinkController.deleteByUrl',
+
     'post   /api/link/find-by-url': 'LinkController.findByUrl',
+
+    'post   /api/link/save': 'LinkController.save',
 
     'get    /api/links': 'LinkController.readAll',
 

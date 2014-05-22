@@ -7,8 +7,7 @@ var _this = {
 
         url: {
             type: 'string',
-            required: true,
-            unique: true
+            required: true
         },
 
         title: {
@@ -41,15 +40,24 @@ var _this = {
 
     _create: function(userId, url, title, tags) {
         var _this = this;
-        return q().then(function() {
-            if (!url) {
-                throw new Error('Missing url');
-            }
-            return _this.create({
-                userId: userId,
-                url: url,
-                title: title,
-                tags: tags
+        return _this._findByUrl(userId, url).then(function(res) {
+            return res.json({
+                status: 'error',
+                message: 'duplicate url'
+            });
+
+        }).
+        catch (function(err) {
+            return q().then(function() {
+                if (!url) {
+                    throw new Error('Missing url');
+                }
+                return _this.create({
+                    userId: userId,
+                    url: url,
+                    title: title,
+                    tags: tags
+                });
             });
         });
     },
@@ -75,15 +83,16 @@ var _this = {
         });
     },
 
-    _findByUrl: function(userId, url){
+    _findByUrl: function(userId, url) {
         var _this = this;
-        return q().then(function(){
-            if(!url){
+        return q().then(function() {
+            if (!url) {
                 throw new Error('Missing url');
             }
             return _this.findOne({
-                userId: userId, 
-                url: url
+                userId: userId,
+                url: url,
+                isActive: true
             }).then(function(data) {
                 if (!data) {
                     throw new Error('Not found');
@@ -118,6 +127,18 @@ var _this = {
             return _this.find({
                 userId: userId
             })
+        });
+    },
+
+    _save: function(userId, url, title, tags) {
+        var _this = this;
+        return q().then(function() {
+            return _this._findByUrl(userId, url).then(function(link) {
+                return _this._update(userId, link.id, link.url, title, tags);
+            }).
+            catch (function(err) {
+                return _this._create(userId, url, title, tags);
+            });
         });
     },
 

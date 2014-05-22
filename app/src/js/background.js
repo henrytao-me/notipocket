@@ -143,6 +143,25 @@ var ServiceManager = (function() {
             return _this.request('post', '/api/link/find-by-url', {
                 url: url
             });
+        },
+
+        removeLink: function(url){
+            return _this.request('post', '/api/link/delete-by-url', {
+                url: url
+            });
+        },
+
+        saveLink: function(url, title, tags) {
+            tags = tags || '';
+            tags = tags.split(',');
+            _.each(tags, function(tag, index) {
+                tags[index] = tag.trim();
+            });
+            return _this.request('post', '/api/link/save', {
+                url: url,
+                title: title,
+                tags: tags
+            });
         }
     };
     return _this.init();
@@ -156,10 +175,10 @@ chrome.browserAction.onClicked.addListener(function(tab) {
         code: 'show'
     }, function(res) {
         if (res.code === 'show') {
-            ServiceManager.getLink(tab.url).then(function(res) {
+            ServiceManager.getLink(tab.url).then(function(data) {
                 chrome.tabs.sendMessage(tab.id, {
                     code: 'getLink',
-                    data: res.data
+                    data: data.data
                 });
             }).
             catch (function(err) {
@@ -172,14 +191,33 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     });
 });
 
-chrome.extension.onMessage.addListener(function(req, sender, res) {
+chrome.runtime.onMessage.addListener(function(req, sender, res) {
     // token
     if (req.code === 'token') {
         Token.set(req.data['access_token']);
         ServiceManager.retryQueue();
     }
 
-    //
+    // saveLink
+    if (req.code === 'saveLink') {
+        var promise = null;
+        if(req.data.isActive === true){
+            promise = ServiceManager.saveLink(req.data.url, req.data.title, req.data.tags);
+        } else {
+            promise = ServiceManager.removeLink(req.data.url);
+        }
+        promise.then(function(data) {
+            return data.data;
+        }).
+        catch (function(err) {
+            return null;
+        }).then(function(data) {
+            chrome.tabs.sendMessage(sender.tab.id, {
+                code: 'saveLink',
+                data: data
+            });
+        });
+    }
 });
 
 

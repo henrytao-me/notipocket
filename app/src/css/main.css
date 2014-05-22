@@ -43,12 +43,32 @@
 .notipocket-main .main-header > .wrapper > div > .pull-right > li {
   margin-left: 10px;
 }
+.notipocket-main .main-header > .wrapper > .notification {
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  margin-left: -50px;
+  width: 100px;
+  text-align: center;
+  font-size: 20px;
+  color: #666;
+}
+.notipocket-main .main-header > .wrapper > .notification > * {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  display: none;
+}
+.notipocket-main .main-header > .wrapper > .notification > .wait {
+  opacity: 0.5;
+}
 .notipocket-main .main-header .toolbar-star {
   color: #ccc;
   cursor: pointer;
 }
 .notipocket-main .main-header .toolbar-star.active {
-  color: #ff5555;
+  color: #FCA919;
 }
 .notipocket-main .main-header .toolbar-tags {
   display: none;
