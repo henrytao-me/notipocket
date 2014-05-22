@@ -178,6 +178,8 @@ chrome.extension.onMessage.addListener(function(req, sender, res) {
         Token.set(req.data['access_token']);
         ServiceManager.retryQueue();
     }
+
+    //
 });
 
 
