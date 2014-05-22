@@ -26,11 +26,7 @@ var Token = (function() {
 ////////////////////////////////////////////
 var ServiceManager = (function() {
     var _this = {
-        env: {
-            protocol: 'http://',
-            host: 'dev.notipocket.com',
-            port: 1337
-        },
+        env: Env,
 
         queues: [],
 
@@ -148,10 +144,10 @@ var ServiceManager = (function() {
             }, false);
         },
 
-        getLink: function(url) {
+        getLink: function(url, retry) {
             return _this.request('post', '/api/link/find-by-url', {
                 url: url
-            });
+            }, null, null, retry);
         },
 
         removeLink: function(url) {
@@ -313,7 +309,7 @@ chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
         });
 
         // change icon
-        ServiceManager.getLink(tab.url).then(function(data) {
+        ServiceManager.getLink(tab.url, false).then(function(data) {
             chrome.browserAction.setIcon({
                 path: '/image/icon-19-active.png'
             });

@@ -11,6 +11,7 @@ var Main = (function() {
         },
 
         $template: null,
+        $header: null,
         $notification: {
             id: null,
             $removed: null,
@@ -56,6 +57,13 @@ var Main = (function() {
         },
 
         bindEvents: function() {
+            _this.$template.click(function(e){
+                _this.hide();
+            });
+            _this.$header.click(function(e){
+                e.stopPropagation();
+            });
+
             _this.$toolbar.$star.click(function() {
                 _this.saveLink();
             });
@@ -137,6 +145,8 @@ var Main = (function() {
 
                 // store template & init event
                 _this.$template = $template;
+                _this.$header = _this.$template.find('.main-header');
+
                 _this.$toolbar.$star = _this.$template.find('.toolbar-star');
                 _this.$toolbar.$tags = _this.$template.find('.toolbar-tags');
                 _this.$toolbar.$addTags = _this.$template.find('.toolbar-addTags');
