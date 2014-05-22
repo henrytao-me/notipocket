@@ -23,9 +23,6 @@ module.exports.policies = {
         register: true,
         refreshToken: 'isAuthenticated'
     },
-    ActivityController: {
-        silentCreate: true
-    },
     AuthController: true
 
     /*

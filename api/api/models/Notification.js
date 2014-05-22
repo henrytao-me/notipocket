@@ -211,6 +211,9 @@ var _this = {
                         }
                     });
                 });
+                if(notifications.length === 0){
+                    deferred.resolve(notifications);
+                }
                 return deferred.promise;
             });
         });

@@ -139,6 +139,13 @@ var ServiceManager = (function() {
         ////////////////////////////////////
         // extend
         ////////////////////////////////////
+        checkNotification: function(options) {
+            return _this.request('get', '/api/notifications', {}, null, {
+                'Authorization': 'BEARER ' + Token.get(),
+                'x-options': 'p' + Base64.encode(JSON.stringify(options))
+            });
+        },
+
         getLink: function(url) {
             return _this.request('post', '/api/link/find-by-url', {
                 url: url
@@ -168,8 +175,32 @@ var ServiceManager = (function() {
 }());
 
 ////////////////////////////////////////////
+// notification
+////////////////////////////////////////////
+var Notification = (function() {
+    var _this = {
+
+        init: function() {
+            return _this;
+        },
+
+        show: function(tabId, notifications) {
+            chrome.browserAction.setBadgeText({
+                text: notifications.length === 0 ? '' : notifications.length.toString()
+            });
+            chrome.browserAction.setBadgeBackgroundColor({
+                color: '#666'
+            });
+        }
+
+    };
+    return _this.init();
+}());
+
+////////////////////////////////////////////
 // event
 ////////////////////////////////////////////
+// browser action click
 chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.sendMessage(tab.id, {
         code: 'show'
@@ -191,6 +222,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     });
 });
 
+// run time listener
 chrome.runtime.onMessage.addListener(function(req, sender, res) {
     // token
     if (req.code === 'token') {
@@ -232,40 +264,53 @@ chrome.runtime.onMessage.addListener(function(req, sender, res) {
     }
 });
 
+// on update listener
+chrome.tabs.onUpdated.addListener(function(tabId, params, tabInfo) {
+    ServiceManager.checkNotification({
+        type: 'update',
+        params: params,
+        tabId: tabId,
+        tabInfo: tabInfo
+    }).then(function(res) {
+        return res.data;
+    }).
+    catch (function(err) {
+        return [];
 
-// chrome.tabs.onUpdated.addListener(function(tabId, params, tabInfo) {
-//     $.ajax({
-//         type: 'PUT',
-//         url: _this.getUrl('/api/notification/check'),
-//         dataType: 'json',
-//         data: {
-//             params: 'p' + Base64.encode(JSON.stringify({
-//                 type: 'update',
-//                 params: params,
-//                 tabId: tabId,
-//                 tabInfo: tabInfo
-//             }))
-//         }
-//     });
-// });
+    }).then(function(data) {
+        Notification.show(tabId, data);
+    });;
+});
 
-// chrome.tabs.onRemoved.addListener(function(tabId, params) {
-//     $.ajax({
-//         type: 'PUT',
-//         url: _this.getUrl('/api/notification/check'),
-//         dataType: 'json',
-//         data: {
-//             params: 'p' + Base64.encode(JSON.stringify({
-//                 type: 'remove',
-//                 params: params,
-//                 tabId: tabId
-//             }))
-//         }
-//     });
-// });
+// on remove listener
+chrome.tabs.onRemoved.addListener(function(tabId, params) {
+    ServiceManager.checkNotification({
+        type: 'remove',
+        params: params,
+        tabId: tabId
+    });
+});
 
+// on select listener
 chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
     chrome.tabs.get(tabId, function(tab) {
+        // check notification
+        ServiceManager.checkNotification({
+            type: 'select',
+            params: params,
+            tabId: tabId,
+            tabInfo: tab
+        }).then(function(res) {
+            return res.data;
+        }).
+        catch (function(err) {
+            return [];
+
+        }).then(function(data) {
+            Notification.show(tabId, data);
+        });
+
+        // change icon
         ServiceManager.getLink(tab.url).then(function(data) {
             chrome.browserAction.setIcon({
                 path: '/image/icon-19-active.png'
@@ -277,19 +322,4 @@ chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
             });
         });
     });
-
-
-
-    // $.ajax({
-    //     type: 'PUT',
-    //     url: _this.getUrl('/api/notification/check'),
-    //     dataType: 'json',
-    //     data: {
-    //         params: 'p' + Base64.encode(JSON.stringify({
-    //             type: 'selection',
-    //             params: params,
-    //             tabId: tabId
-    //         }))
-    //     }
-    // });
 });

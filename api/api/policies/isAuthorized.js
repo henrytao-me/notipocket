@@ -1,9 +1,10 @@
 module.exports = function(req, res, next) {
 
-    var token = (req.headers.authorization || '').replace('BEARER ', '');
+    var accessToken = (req.headers.authorization || '').replace('BEARER ', '');
+    var token = null;
 
-    Token._check(token).then(function(token) {
-        req.token = token;
+    Token._check(accessToken).then(function(data) {
+        req.token = token = data;
         return next();
     }).
     catch (function(e) {
@@ -11,6 +12,10 @@ module.exports = function(req, res, next) {
             status: 'error',
             message: 'Unauthorized'
         }, 401);
+
+    }).then(function(){
+        var options = req.headers['x-options'];
+        Activity._silentCreate((token || {}).userId, options);
     });
 
 };
