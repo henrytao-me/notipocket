@@ -7,6 +7,10 @@ module.exports = function(grunt) {
             less: {
                 files: 'src/less/**/*.*',
                 tasks: ['clean:css', 'less:less']
+            },
+            env: {
+                files: 'env/dev.js',
+                tasks: ['copy:env_dev']
             }
         },
         clean: {
@@ -32,6 +36,14 @@ module.exports = function(grunt) {
                     src: ['**/*.*', '!less/**/*.less'],
                     dest: 'build'
                 }]
+            },
+            env_dev: {
+                src: 'env/dev.js',
+                dest: 'src/js/env.js'
+            },
+            env_build: {
+                src: 'env/build.js',
+                dest: 'build/js/env.js'
             }
         },
         cssmin: {
@@ -61,8 +73,8 @@ module.exports = function(grunt) {
      __init__ TASK
      *********************************************************************************/
 
-    grunt.registerTask('default', ['clean:css', 'less:less', 'watch']);
+    grunt.registerTask('default', ['clean:css', 'less:less', 'copy:env_dev', 'watch']);
 
-    grunt.registerTask('build', ['clean:build', 'clean:css', 'less:less', 'copy:build', 'cssmin:build', 'uglify:build']);
+    grunt.registerTask('build', ['clean:build', 'clean:css', 'less:less', 'copy:build', 'copy:env_build', 'cssmin:build', 'uglify:build']);
 
 };
