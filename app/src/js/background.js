@@ -97,7 +97,9 @@ var ServiceManager = (function() {
             });
         },
 
-        request: function(type, url, data, dataType, headers) {
+        request: function(type, url, data, dataType, headers, retry) {
+            retry = retry === false ? false : true;
+
             var args = arguments;
             var deferred = Q.defer();
             $.ajax({
@@ -129,7 +131,7 @@ var ServiceManager = (function() {
             return deferred.promise.
             catch (function(err) {
                 // refresh token
-                if (err.code === 401) {
+                if (err.code === 401 && retry === true) {
                     return _this.refresToken(args);
                 }
                 throw new Error(err.message);
@@ -143,7 +145,7 @@ var ServiceManager = (function() {
             return _this.request('get', '/api/notifications', {}, null, {
                 'Authorization': 'BEARER ' + Token.get(),
                 'x-options': 'p' + Base64.encode(JSON.stringify(options))
-            });
+            }, false);
         },
 
         getLink: function(url) {
