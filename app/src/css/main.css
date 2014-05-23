@@ -10,7 +10,7 @@
   left: 0px;
   right: 0px;
   bottom: 0px;
-  z-index: 999999;
+  z-index: 999999999999;
 }
 .notipocket-main .bg-color {
   position: absolute;
