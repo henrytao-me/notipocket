@@ -6,7 +6,7 @@ var config = {
     env: {
         protocol: window.location.protocol + '//',
         host: window.location.hostname,
-        port: 1337
+        port: 80
     },
     getUrl: function(url){
         return config.env.protocol + config.env.host + (config.env.port === 80 ? '' : ':' + config.env.port) + url;

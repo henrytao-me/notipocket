@@ -8,7 +8,7 @@
         "page": "html/background.html"
     },
     "browser_action": {
-        "default_title": "Watch List",
+        "default_title": "Watch all the web you care about.",
         "default_icon": {
             "19": "image/icon-19.png",
             "38": "image/icon-38.png"
