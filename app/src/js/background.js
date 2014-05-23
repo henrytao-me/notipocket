@@ -196,6 +196,33 @@ var Notification = (function() {
 }());
 
 ////////////////////////////////////////////
+// Tab
+////////////////////////////////////////////
+var Tab = (function(){
+    var _this = {
+
+        init: function(){
+            return _this;
+        },
+
+        checkIconChange: function(url){
+            ServiceManager.getLink(url, false).then(function(data) {
+                chrome.browserAction.setIcon({
+                    path: '/image/icon-19-active.png'
+                });
+            }).
+            catch (function(err) {
+                chrome.browserAction.setIcon({
+                    path: '/image/icon-19.png'
+                });
+            });
+        }
+
+    };
+    return _this.init();
+}());
+
+////////////////////////////////////////////
 // event
 ////////////////////////////////////////////
 // browser action click
@@ -277,7 +304,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, params, tabInfo) {
 
     }).then(function(data) {
         Notification.show(tabId, data);
-    });;
+    });
+
+    // change icon
+    Tab.checkIconChange(tabInfo.url);
 });
 
 // on remove listener
@@ -309,15 +339,6 @@ chrome.tabs.onSelectionChanged.addListener(function(tabId, params) {
         });
 
         // change icon
-        ServiceManager.getLink(tab.url, false).then(function(data) {
-            chrome.browserAction.setIcon({
-                path: '/image/icon-19-active.png'
-            });
-        }).
-        catch (function(err) {
-            chrome.browserAction.setIcon({
-                path: '/image/icon-19.png'
-            });
-        });
+        Tab.checkIconChange(tab.url);
     });
 });
